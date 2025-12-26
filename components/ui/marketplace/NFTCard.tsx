@@ -24,6 +24,8 @@ export function NFTCard({ item, onBuy }: NFTCardProps) {
           <Image
             src={item.image}
             alt={item.name}
+            width={500}
+            height={500}
             className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
           />
           <Badge className="absolute top-3 right-3 bg-black/50 backdrop-blur-md text-white border-none">

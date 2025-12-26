@@ -3,7 +3,7 @@ import { mainnet, sepolia, hardhat } from 'wagmi/chains'
 import { getDefaultConfig } from '@rainbow-me/rainbowkit'
 
 // GET ID FROM WalletConnect
-const projectId = "PROJECT_ID"
+const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || "";
 
 export const config = getDefaultConfig({
   appName: 'NFT Marketplace',
