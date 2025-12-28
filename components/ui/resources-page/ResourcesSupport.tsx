@@ -2,7 +2,7 @@ import { Headphones, MessageCircle, MessageSquare, Globe } from "lucide-react";
 
 export function ResourcesSupport() {
   return (
-    <div className="w-full rounded-2xl bg-gradient-to-r from-[#2a1d35] to-[#1e1526] border border-border-dark p-8 md:p-12 text-center relative overflow-hidden">
+    <div className="w-full rounded-2xl bg-gradient-to-r from-primary/20 to-primary/5 border border-border-dark p-8 md:p-12 text-center relative overflow-hidden">
       <div className="absolute top-0 right-0 p-10 opacity-10 pointer-events-none">
         <Headphones className="w-64 h-64 text-white" />
       </div>
@@ -19,11 +19,11 @@ export function ResourcesSupport() {
             <MessageCircle className="w-5 h-5" />
             Hubungi Dukungan
           </button>
-          <button className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#5865F2] hover:bg-[#4752C4] text-white font-bold transition-transform hover:scale-105">
+          <button className="flex items-center gap-2 px-6 py-3 rounded-full bg-[rgb(var(--discord))] hover:bg-[rgb(var(--discord-hover))] text-white font-bold transition-transform hover:scale-105">
             <MessageSquare className="w-5 h-5" />
             Gabung Discord
           </button>
-          <button className="flex items-center gap-2 px-6 py-3 rounded-full bg-[#1DA1F2] hover:bg-[#1a91da] text-white font-bold transition-transform hover:scale-105">
+          <button className="flex items-center gap-2 px-6 py-3 rounded-full bg-[rgb(var(--twitter))] hover:bg-[rgb(var(--twitter-hover))] text-white font-bold transition-transform hover:scale-105">
             <Globe className="w-5 h-5" />
             Twitter
           </button>

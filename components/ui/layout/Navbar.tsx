@@ -4,6 +4,7 @@ import { NavLogo } from "./navbar/NavLogo";
 import { NavSearch } from "./navbar/NavSearch";
 import { NavLinks } from "./navbar/NavLinks";
 import { NavActions } from "./navbar/NavActions";
+import { NavMobileMenu } from "./navbar/NavMobileMenu";
 
 export function Navbar() {
   return (
@@ -13,9 +14,10 @@ export function Navbar() {
       {/* Search Bar ditaruh di antara logo dan menu */}
       <NavSearch />
 
-      <div className="flex items-center">
+      <div className="flex items-center gap-4">
         <NavLinks />
         <NavActions />
+        <NavMobileMenu />
       </div>
     </nav>
   );

@@ -1,4 +1,15 @@
 import { BadgeCheck } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 
 export function StatsLeaderboard() {
   const collections = [
@@ -70,7 +81,7 @@ export function StatsLeaderboard() {
   return (
     <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
       {/* Top Collections */}
-      <div className="flex flex-col rounded-2xl border border-stats-border bg-stats-surface overflow-hidden shadow-sm">
+      <Card className="flex flex-col rounded-2xl border-stats-border bg-stats-surface overflow-hidden p-0">
         <div className="flex justify-between items-center p-6 pb-2">
           <h3 className="text-xl font-bold text-white">Top Collections</h3>
           <a
@@ -80,76 +91,79 @@ export function StatsLeaderboard() {
             View All
           </a>
         </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left">
-            <thead>
-              <tr className="border-b border-stats-border/50">
-                <th className="p-4 pl-6 text-xs font-bold text-slate-400 uppercase tracking-wider w-16">
-                  Rank
-                </th>
-                <th className="p-4 text-xs font-bold text-slate-400 uppercase tracking-wider">
-                  Collection
-                </th>
-                <th className="p-4 text-xs font-bold text-slate-400 uppercase tracking-wider text-right">
-                  Floor
-                </th>
-                <th className="p-4 pr-6 text-xs font-bold text-slate-400 uppercase tracking-wider text-right">
-                  Volume
-                </th>
-              </tr>
-            </thead>
-            <tbody className="text-sm">
-              {collections.map((c) => (
-                <tr
-                  key={c.name}
-                  className="group hover:bg-stats-border/30 transition-colors border-b border-stats-border/30 last:border-0"
-                >
-                  <td className="p-4 pl-6 font-bold text-slate-500">
-                    {c.rank}
-                  </td>
-                  <td className="p-4">
-                    <div className="flex items-center gap-3">
-                      <div className={`size-10 rounded-full ${c.img}`}></div>
-                      <div className="flex flex-col">
-                        <span className="font-bold text-white">{c.name}</span>
-                        <span className="text-xs text-slate-500 flex items-center gap-1">
-                          <BadgeCheck className="w-3 h-3 text-blue-400" />{" "}
-                          Verified
-                        </span>
-                      </div>
+        <Table>
+          <TableHeader>
+            <TableRow className="border-stats-border/50 hover:bg-transparent">
+              <TableHead className="pl-6 text-xs font-bold text-slate-400 uppercase tracking-wider w-16">
+                Rank
+              </TableHead>
+              <TableHead className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                Collection
+              </TableHead>
+              <TableHead className="text-xs font-bold text-slate-400 uppercase tracking-wider text-right">
+                Floor
+              </TableHead>
+              <TableHead className="pr-6 text-xs font-bold text-slate-400 uppercase tracking-wider text-right">
+                Volume
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {collections.map((c) => (
+              <TableRow
+                key={c.name}
+                className="group hover:bg-stats-border/30 border-stats-border/30"
+              >
+                <TableCell className="pl-6 font-bold text-slate-500">
+                  {c.rank}
+                </TableCell>
+                <TableCell className="p-4">
+                  <div className="flex items-center gap-3">
+                    <Avatar className={`size-10 ${c.img}`}>
+                      <AvatarFallback className={c.img}>
+                        {c.name.slice(0, 2)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex flex-col">
+                      <span className="font-bold text-white">{c.name}</span>
+                      <span className="text-xs text-slate-500 flex items-center gap-1">
+                        <BadgeCheck className="w-3 h-3 text-blue-400" />{" "}
+                        Verified
+                      </span>
                     </div>
-                  </td>
-                  <td className="p-4 text-right font-medium text-white">
-                    {c.floor}
-                  </td>
-                  <td className="p-4 pr-6 text-right">
-                    <div className="font-bold text-white">{c.vol}</div>
-                    <div
-                      className={`text-xs ${
-                        c.change.includes("-")
-                          ? "text-red-500"
-                          : "text-green-500"
-                      }`}
-                    >
-                      {c.change}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+                  </div>
+                </TableCell>
+                <TableCell className="text-right font-medium text-white">
+                  {c.floor}
+                </TableCell>
+                <TableCell className="pr-6 text-right">
+                  <div className="font-bold text-white">{c.vol}</div>
+                  <div
+                    className={`text-xs ${
+                      c.change.includes("-")
+                        ? "text-red-500"
+                        : "text-green-500"
+                    }`}
+                  >
+                    {c.change}
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Card>
 
       {/* Trending Sales */}
-      <div className="flex flex-col rounded-2xl border border-stats-border bg-stats-surface overflow-hidden shadow-sm">
+      <Card className="flex flex-col rounded-2xl border-stats-border bg-stats-surface overflow-hidden p-0">
         <div className="flex justify-between items-center p-6 pb-2">
           <h3 className="text-xl font-bold text-white">Trending Sales</h3>
-          <div className="flex gap-2">
-            <span className="bg-primary/10 text-primary px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider animate-pulse">
-              Live
-            </span>
-          </div>
+          <Badge
+            variant="secondary"
+            className="bg-primary/10 text-primary uppercase tracking-wider animate-pulse border-0"
+          >
+            Live
+          </Badge>
         </div>
         <div className="flex flex-col">
           {sales.map((s, i) => (
@@ -158,7 +172,11 @@ export function StatsLeaderboard() {
               className="flex items-center justify-between p-4 border-b border-stats-border/30 hover:bg-stats-border/30 transition-colors cursor-pointer group last:border-0"
             >
               <div className="flex items-center gap-4">
-                <div className={`size-12 rounded-lg ${s.img}`}></div>
+                <Avatar className={`size-12 rounded-lg ${s.img}`}>
+                  <AvatarFallback className={`${s.img} rounded-lg`}>
+                    {s.name.slice(0, 2)}
+                  </AvatarFallback>
+                </Avatar>
                 <div className="flex flex-col">
                   <span className="font-bold text-white group-hover:text-primary transition-colors">
                     {s.name}
@@ -173,7 +191,7 @@ export function StatsLeaderboard() {
             </div>
           ))}
         </div>
-      </div>
+      </Card>
     </div>
   );
 }

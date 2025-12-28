@@ -1,0 +1,27 @@
+interface StatCardProps {
+  value: string;
+  label: string;
+  index?: number;
+}
+
+export function StatCard({ value, label, index = 0 }: StatCardProps) {
+  return (
+    <div
+      className="group relative p-8 rounded-3xl bg-gradient-to-br from-surface-dark to-surface-darker border border-white/10 hover:border-primary/50 transition-all duration-500 hover:scale-110 hover:-translate-y-2 cursor-pointer"
+      style={{ animationDelay: `${index * 100}ms` }}
+    >
+      {/* Number */}
+      <p className="text-4xl md:text-5xl font-black text-white group-hover:text-primary transition-colors mb-2">
+        {value}
+      </p>
+      
+      {/* Label */}
+      <p className="text-sm text-gray-400 font-semibold">
+        {label}
+      </p>
+
+      {/* Animated Background Glow */}
+      <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/0 to-purple-600/0 group-hover:from-primary/20 group-hover:to-purple-600/20 blur-xl transition-all duration-500 -z-10" />
+    </div>
+  );
+}

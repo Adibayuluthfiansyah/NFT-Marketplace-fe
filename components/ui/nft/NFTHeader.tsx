@@ -41,7 +41,7 @@ export function NFTHeader({ id }: { id: string }) {
             href="#"
             className="flex items-center gap-2 text-white hover:text-primary font-medium"
           >
-            <div className="size-5 rounded-full bg-linear-to-tr from-orange-400 to-pink-500"></div>
+            <div className="size-5 rounded-full bg-gradient-to-tr from-orange-400 to-pink-500"></div>
             CryptoKing
           </a>
         </div>

@@ -10,7 +10,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: "#7f0df2",
+        primary: "#5a0bb8", 
         "background-light": "#f7f5f8",
         "background-dark": "#191022",
         "surface-dark": "#2a2136",

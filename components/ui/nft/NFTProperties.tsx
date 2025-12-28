@@ -18,7 +18,7 @@ export function NFTProperties({ traits }: { traits: Trait[] }) {
         </div>
         <ChevronUp className="w-5 h-5 text-gray-400" />
       </div>
-      <div className="p-5 grid grid-cols-2 sm:grid-cols-3 gap-3">
+      <div className="p-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
         {traits.map((prop, i) => (
           <div
             key={i}

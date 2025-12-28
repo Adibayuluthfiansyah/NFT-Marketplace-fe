@@ -1,8 +1,8 @@
-import { useState } from "react";
+"use client";
+
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export function StatsHeader() {
-  const [filter, setFilter] = useState("24h");
-
   return (
     <div className="flex flex-col md:flex-row flex-wrap justify-between items-start md:items-center gap-6 mb-8">
       <div className="flex flex-col gap-2">
@@ -14,27 +14,34 @@ export function StatsHeader() {
         </p>
       </div>
 
-      <div className="flex h-10 items-center justify-center rounded-full bg-stats-border p-1">
-        {["24h", "7d", "30d", "All"].map((item) => (
-          <label
-            key={item}
-            className={`flex cursor-pointer h-full items-center justify-center rounded-full px-4 text-sm font-bold transition-all ${
-              filter === item
-                ? "bg-stats-bg text-primary shadow-sm"
-                : "text-text-secondary hover:text-white"
-            }`}
+      <Tabs defaultValue="24h">
+        <TabsList className="h-10 rounded-full bg-stats-border p-1">
+          <TabsTrigger 
+            value="24h" 
+            className="rounded-full px-4 text-sm font-bold data-[state=active]:bg-stats-bg data-[state=active]:text-primary data-[state=active]:shadow-sm text-text-secondary hover:text-white"
           >
-            <span className="truncate">{item}</span>
-            <input
-              type="radio"
-              name="time-filter"
-              className="hidden"
-              checked={filter === item}
-              onChange={() => setFilter(item)}
-            />
-          </label>
-        ))}
-      </div>
+            24h
+          </TabsTrigger>
+          <TabsTrigger 
+            value="7d"
+            className="rounded-full px-4 text-sm font-bold data-[state=active]:bg-stats-bg data-[state=active]:text-primary data-[state=active]:shadow-sm text-text-secondary hover:text-white"
+          >
+            7d
+          </TabsTrigger>
+          <TabsTrigger 
+            value="30d"
+            className="rounded-full px-4 text-sm font-bold data-[state=active]:bg-stats-bg data-[state=active]:text-primary data-[state=active]:shadow-sm text-text-secondary hover:text-white"
+          >
+            30d
+          </TabsTrigger>
+          <TabsTrigger 
+            value="All"
+            className="rounded-full px-4 text-sm font-bold data-[state=active]:bg-stats-bg data-[state=active]:text-primary data-[state=active]:shadow-sm text-text-secondary hover:text-white"
+          >
+            All
+          </TabsTrigger>
+        </TabsList>
+      </Tabs>
     </div>
   );
 }

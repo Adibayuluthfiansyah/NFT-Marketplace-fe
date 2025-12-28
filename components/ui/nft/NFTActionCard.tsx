@@ -25,11 +25,11 @@ export function NFTActionCard() {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4">
-          <button className="flex-1 bg-primary hover:bg-primary/90 text-white font-bold text-lg h-14 rounded-full flex items-center justify-center gap-2 transition-all shadow-[0_0_20px_rgba(127,13,242,0.3)] hover:shadow-[0_0_30px_rgba(127,13,242,0.5)] active:scale-[0.98]">
+          <button className="flex-1 bg-primary hover:bg-primary/90 text-white font-bold text-lg h-12 py-3 rounded-full flex items-center justify-center gap-2 transition-all shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 active:scale-[0.98]">
             <Wallet className="w-5 h-5" />
             Buy Now
           </button>
-          <button className="flex-1 bg-transparent border-2 border-white/20 text-white font-bold text-lg h-14 rounded-full flex items-center justify-center gap-2 hover:border-primary hover:text-primary transition-all active:scale-[0.98]">
+          <button className="flex-1 bg-transparent border-2 border-white/20 text-white font-bold text-lg h-12 py-3 rounded-full flex items-center justify-center gap-2 hover:border-primary hover:text-primary transition-all active:scale-[0.98]">
             <Tag className="w-5 h-5" />
             Make Offer
           </button>

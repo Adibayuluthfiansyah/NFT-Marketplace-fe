@@ -56,7 +56,7 @@ export function NFTCard({ item, onBuy }: NFTCardProps) {
         </div>
         <Button
           onClick={() => onBuy?.(item.tokenId)}
-          className="bg-primary hover:bg-primary/80 text-white font-semibold shadow-[0_0_15px_rgba(127,13,242,0.4)]"
+          className="bg-primary hover:bg-primary/80 text-white font-semibold shadow-primary-sm"
         >
           Buy Now
         </Button>

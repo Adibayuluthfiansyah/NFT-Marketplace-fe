@@ -1,8 +1,10 @@
 "use client";
 
 import { use } from "react";
+import Link from "next/link";
+import { motion } from "framer-motion";
 import { Navbar } from "@/components/ui/layout/Navbar";
-import { FileText, Link } from "lucide-react";
+import { FileText } from "lucide-react";
 import { NFTImage } from "@/components/ui/nft/NFTImage";
 import { NFTProperties } from "@/components/ui/nft/NFTProperties";
 import { NFTHeader } from "@/components/ui/nft/NFTHeader";
@@ -15,7 +17,6 @@ export default function NFTDetailPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  // 3. GUNAKAN 'use()' UNTUK BUKA PARAMS
   const resolvedParams = use(params);
   const id = resolvedParams.id || "9999";
 
@@ -34,26 +35,39 @@ export default function NFTDetailPage({
 
       <div className="max-w-400 mx-auto px-4 sm:px-6 lg:px-10 py-8">
         {/* Breadcrumbs */}
-        <div className="flex flex-wrap items-center gap-2 mb-6 text-sm">
-          <Link href="/">Home</Link>
-          Home
+        <motion.div 
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className="flex flex-wrap items-center gap-2 mb-6 text-sm"
+        >
+          <Link href="/" className="text-gray-400 hover:text-primary transition-colors">
+            Home
+          </Link>
           <span className="text-gray-500">/</span>
-          <a
-            href="#"
-            className="text-gray-400 hover:text-primary transition-colors"
-          >
+          <Link href="/explore" className="text-gray-400 hover:text-primary transition-colors">
             Collections
-          </a>
+          </Link>
           <span className="text-gray-500">/</span>
           <span className="text-white font-medium">Azuki</span>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <div className="lg:col-span-5 flex flex-col gap-6 w-full">
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="lg:col-span-5 flex flex-col gap-6 w-full"
+          >
             {/* Kirim URL gambar ke komponen */}
             <NFTImage image="https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=1974" />
 
-            <div className="bg-surface-dark/50 rounded-2xl border border-white/10 overflow-hidden">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.3 }}
+              className="bg-surface-dark/50 rounded-2xl border border-white/10 overflow-hidden"
+            >
               <div className="px-5 py-4 flex items-center gap-3 border-b border-white/10 bg-white/5">
                 <FileText className="w-5 h-5 text-gray-400" />
                 <h3 className="font-bold text-lg text-white">Description</h3>
@@ -64,16 +78,21 @@ export default function NFTDetailPage({
                   membership access to The Garden.
                 </p>
               </div>
-            </div>
+            </motion.div>
 
             <NFTProperties traits={traits} />
-          </div>
+          </motion.div>
 
-          <div className="lg:col-span-7 flex flex-col gap-6 w-full">
+          <motion.div 
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="lg:col-span-7 flex flex-col gap-6 w-full"
+          >
             <NFTHeader id={id} />
             <NFTActionCard />
             <NFTPriceHistory />
-          </div>
+          </motion.div>
         </div>
         <MoreCollection />
       </div>

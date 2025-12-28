@@ -75,17 +75,15 @@ export function ExploreCard({ data }: ExploreNFTProps) {
           )}
         </div>
 
-        {/* Hover Button */}
+        {/* Action Button */}
         <button
-          className={`
-          w-full mt-3 py-2 rounded-lg text-sm font-bold transition-all duration-300 shadow-lg
-          lg:opacity-0 lg:group-hover:opacity-100 lg:absolute lg:bottom-4 lg:left-0 lg:right-0 lg:mx-4 lg:w-[calc(100%-2rem)] lg:translate-y-2 lg:group-hover:translate-y-0
-          ${
-            data.action === "Buy Now"
-              ? "bg-primary hover:bg-primary/90 text-white"
-              : "bg-primary/10 hover:bg-primary text-primary hover:text-white backdrop-blur-sm"
-          }
-        `}
+          className={`w-full mt-3 py-2 rounded-lg text-sm font-bold transition-all duration-300 shadow-lg
+            ${
+              data.action === "Buy Now"
+                ? "bg-primary hover:bg-primary/90 text-white"
+                : "bg-primary/10 hover:bg-primary text-primary hover:text-white backdrop-blur-sm border border-primary/30"
+            }
+          `}
         >
           {data.action}
         </button>

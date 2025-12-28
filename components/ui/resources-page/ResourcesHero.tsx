@@ -4,9 +4,10 @@ export function ResourcesHero() {
   return (
     <div className="w-full">
       <div
-        className="relative overflow-hidden rounded-2xl bg-cover bg-center bg-no-repeat min-h-100 flex flex-col items-center justify-center p-6 gap-8 border border-border-dark shadow-2xl"
+        className="relative overflow-hidden rounded-2xl bg-cover bg-center bg-no-repeat min-h-100 flex flex-col items-center justify-center p-6 gap-8 border border-border-dark shadow-2xl bg-gradient-to-b from-background-dark/70 to-background-dark/90"
         style={{
-          backgroundImage: `linear-gradient(rgba(25, 16, 34, 0.7), rgba(25, 16, 34, 0.9)), url('https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=2232')`,
+          backgroundImage: `url('https://images.unsplash.com/photo-1639322537228-f710d846310a?q=80&w=2232')`,
+          backgroundBlendMode: 'overlay',
         }}
       >
         <div className="flex flex-col gap-3 text-center max-w-2xl z-10">

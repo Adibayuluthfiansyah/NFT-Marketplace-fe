@@ -6,6 +6,7 @@ import {
   TrendingUp,
   TrendingDown,
 } from "lucide-react";
+import { Card } from "@/components/ui/card";
 
 export function StatsMetrics() {
   const metrics = [
@@ -43,9 +44,9 @@ export function StatsMetrics() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
       {metrics.map((m, i) => (
-        <div
+        <Card
           key={i}
-          className="flex flex-col gap-2 rounded-2xl p-6 bg-stats-surface border border-stats-border shadow-sm group hover:border-primary/30 transition-colors"
+          className="flex flex-col gap-2 rounded-2xl p-6 bg-stats-surface border-stats-border group hover:border-primary/30 transition-colors"
         >
           <div className="flex items-center gap-2">
             <m.icon className="text-slate-400 w-5 h-5 group-hover:text-primary transition-colors" />
@@ -77,7 +78,7 @@ export function StatsMetrics() {
               </span>
             )}
           </p>
-        </div>
+        </Card>
       ))}
     </div>
   );
