@@ -1,3 +1,5 @@
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 interface ProfileTab {
   name: string;
   value: string;
@@ -12,18 +14,13 @@ interface ProfileTabsProps {
 
 export function ProfileTabs({ tabs, activeTab, onTabChange }: ProfileTabsProps) {
   return (
-    <div className="flex overflow-x-auto items-center gap-2 mb-8 border-b border-white/10 pb-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-      {tabs.map((tab) => {
-        const isActive = activeTab === tab.value;
-        return (
-          <button
+    <Tabs value={activeTab} onValueChange={onTabChange} className="mb-8">
+      <TabsList className="w-full justify-start bg-transparent border-b border-white/10 rounded-none h-auto p-0 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        {tabs.map((tab) => (
+          <TabsTrigger
             key={tab.value}
-            onClick={() => onTabChange(tab.value)}
-            className={`px-6 py-3 rounded-t-lg text-sm font-bold whitespace-nowrap transition-all border-b-2 ${
-              isActive
-                ? "border-primary text-white bg-white/5"
-                : "border-transparent text-gray-400 hover:text-white"
-            }`}
+            value={tab.value}
+            className="px-6 py-3 rounded-t-lg text-sm font-bold whitespace-nowrap data-[state=active]:border-primary data-[state=active]:text-white data-[state=active]:bg-white/5 data-[state=inactive]:text-gray-400 data-[state=inactive]:hover:text-white border-b-2 data-[state=active]:border-b-primary data-[state=inactive]:border-transparent rounded-b-none"
           >
             {tab.name}{" "}
             {tab.count !== undefined && (
@@ -31,9 +28,9 @@ export function ProfileTabs({ tabs, activeTab, onTabChange }: ProfileTabsProps) 
                 {tab.count}
               </span>
             )}
-          </button>
-        );
-      })}
-    </div>
+          </TabsTrigger>
+        ))}
+      </TabsList>
+    </Tabs>
   );
 }

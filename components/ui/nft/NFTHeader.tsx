@@ -6,6 +6,13 @@ import {
   Eye,
   Heart,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export function NFTHeader({ id }: { id: string }) {
   return (
@@ -18,16 +25,54 @@ export function NFTHeader({ id }: { id: string }) {
           Azuki Collection
           <CheckCircle className="w-5 h-5 fill-primary text-background-dark" />
         </a>
-        <div className="flex items-center gap-2">
-          {[RefreshCw, Share2, MoreHorizontal].map((Icon, i) => (
-            <button
-              key={i}
-              className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-full transition-colors border border-transparent hover:border-white/10"
-            >
-              <Icon className="w-5 h-5" />
-            </button>
-          ))}
-        </div>
+        <TooltipProvider>
+          <div className="flex items-center gap-2">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-gray-400 hover:text-white hover:bg-white/10 rounded-full"
+                >
+                  <RefreshCw className="w-5 h-5" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Refresh metadata</p>
+              </TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-gray-400 hover:text-white hover:bg-white/10 rounded-full"
+                >
+                  <Share2 className="w-5 h-5" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Share</p>
+              </TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-gray-400 hover:text-white hover:bg-white/10 rounded-full"
+                >
+                  <MoreHorizontal className="w-5 h-5" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>More options</p>
+              </TooltipContent>
+            </Tooltip>
+          </div>
+        </TooltipProvider>
       </div>
 
       <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
@@ -48,9 +93,9 @@ export function NFTHeader({ id }: { id: string }) {
         <div className="flex items-center gap-2 text-sm text-gray-400">
           <Eye className="w-4 h-4" /> <span>4.2K views</span>
         </div>
-        <div className="flex items-center gap-2 text-sm text-gray-400 hover:text-red-500 cursor-pointer transition-colors">
+        <button className="flex items-center gap-2 text-sm text-gray-400 hover:text-red-500 cursor-pointer transition-colors">
           <Heart className="w-4 h-4" /> <span>205 favorites</span>
-        </div>
+        </button>
       </div>
     </div>
   );

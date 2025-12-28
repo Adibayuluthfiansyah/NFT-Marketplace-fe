@@ -1,4 +1,7 @@
 import { Filter, ChevronDown, Search, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card } from "@/components/ui/card";
 
 interface ExploreSidebarProps {
   isOpen: boolean;
@@ -17,18 +20,18 @@ export function ExploreSidebar({ isOpen, onClose }: ExploreSidebarProps) {
       {/* Mobile Header */}
       <div className="lg:hidden flex items-center justify-between mb-4">
         <h3 className="text-xl font-bold text-white">Filters</h3>
-        <button onClick={onClose} className="text-white">
+        <Button variant="ghost" size="icon" onClick={onClose} className="text-white">
           <X className="w-6 h-6" />
-        </button>
+        </Button>
       </div>
 
       <div className="flex items-center justify-between">
         <h3 className="text-xl font-bold flex items-center gap-2 text-white">
           <Filter className="w-5 h-5" /> Filters
         </h3>
-        <span className="text-sm text-primary font-bold cursor-pointer hover:underline">
+        <Button variant="link" className="text-sm text-primary font-bold p-0 h-auto">
           Reset
-        </span>
+        </Button>
       </div>
 
       {/* Filter: Status */}
@@ -38,12 +41,12 @@ export function ExploreSidebar({ isOpen, onClose }: ExploreSidebarProps) {
           <ChevronDown className="w-5 h-5" />
         </button>
         <div className="grid grid-cols-2 gap-2">
-          <button className="flex items-center justify-center h-10 rounded-lg bg-primary text-white text-sm font-bold transition-colors">
+          <Button className="bg-primary hover:bg-primary/90 text-white text-sm font-bold">
             Buy Now
-          </button>
-          <button className="flex items-center justify-center h-10 rounded-lg bg-surface-dark border border-white/10 hover:border-primary/50 text-white text-sm font-medium transition-colors">
+          </Button>
+          <Button variant="outline" className="bg-surface-dark border-white/10 hover:border-primary/50 text-white text-sm font-medium">
             On Auction
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -54,25 +57,21 @@ export function ExploreSidebar({ isOpen, onClose }: ExploreSidebarProps) {
           <ChevronDown className="w-5 h-5" />
         </button>
         <div className="flex items-center gap-3 mb-3">
-          <div className="relative flex-1">
-            <input
-              className="w-full bg-transparent rounded-lg border border-white/10 px-3 py-2 text-sm text-white focus:border-primary focus:ring-0 outline-none"
-              placeholder="Min"
-              type="number"
-            />
-          </div>
+          <Input
+            className="flex-1 bg-transparent rounded-lg border-white/10 text-sm text-white focus:border-primary"
+            placeholder="Min"
+            type="number"
+          />
           <span className="text-gray-400">to</span>
-          <div className="relative flex-1">
-            <input
-              className="w-full bg-transparent rounded-lg border border-white/10 px-3 py-2 text-sm text-white focus:border-primary focus:ring-0 outline-none"
-              placeholder="Max"
-              type="number"
-            />
-          </div>
+          <Input
+            className="flex-1 bg-transparent rounded-lg border-white/10 text-sm text-white focus:border-primary"
+            placeholder="Max"
+            type="number"
+          />
         </div>
-        <button className="w-full h-10 rounded-lg bg-surface-dark border border-white/10 hover:bg-primary hover:text-white hover:border-primary transition-colors text-sm font-bold text-white">
+        <Button variant="outline" className="w-full bg-surface-dark border-white/10 hover:bg-primary hover:text-white hover:border-primary text-sm font-bold">
           Apply
-        </button>
+        </Button>
       </div>
 
       {/* Filter: Categories */}

@@ -4,6 +4,18 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/ui/layout/Navbar";
 import { Footer } from "@/components/ui/layout/Footer";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   CloudUpload,
   Plus,
@@ -135,15 +147,16 @@ export default function CreateNFTPage() {
                 transition={{ duration: 0.3, delay: 0.4 }}
                 className="flex flex-col gap-3"
               >
-                <label className="text-lg font-bold">
+                <Label htmlFor="name" className="text-lg font-bold">
                   Name <span className="text-red-500">*</span>
-                </label>
-                <input
+                </Label>
+                <Input
+                  id="name"
                   type="text"
                   placeholder="Item name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-surface-dark border border-border-dark rounded-xl px-4 py-3 text-white placeholder:text-text-secondary focus:ring-2 focus:ring-primary focus:border-primary transition-all outline-none"
+                  className="w-full bg-surface-dark border-border-dark rounded-xl text-white placeholder:text-text-secondary focus:ring-2 focus:ring-primary"
                 />
               </motion.div>
 
@@ -154,15 +167,16 @@ export default function CreateNFTPage() {
                 transition={{ duration: 0.3, delay: 0.45 }}
                 className="flex flex-col gap-3"
               >
-                <label className="text-lg font-bold">External link</label>
+                <Label htmlFor="external-link" className="text-lg font-bold">External link</Label>
                 <p className="text-sm text-text-secondary -mt-2">
                   OpenSea will include a link to this URL on this items detail
                   page.
                 </p>
-                <input
+                <Input
+                  id="external-link"
                   type="url"
                   placeholder="https://yoursite.io/item/123"
-                  className="w-full bg-surface-dark border border-border-dark rounded-xl px-4 py-3 text-white placeholder:text-text-secondary focus:ring-2 focus:ring-primary focus:border-primary transition-all outline-none"
+                  className="w-full bg-surface-dark border-border-dark rounded-xl text-white placeholder:text-text-secondary focus:ring-2 focus:ring-primary"
                 />
               </motion.div>
 
@@ -173,15 +187,16 @@ export default function CreateNFTPage() {
                 transition={{ duration: 0.3, delay: 0.5 }}
                 className="flex flex-col gap-3"
               >
-                <label className="text-lg font-bold">Description</label>
+                <Label htmlFor="description" className="text-lg font-bold">Description</Label>
                 <p className="text-sm text-text-secondary -mt-2">
                   The description will be included on the items detail page.
                 </p>
-                <textarea
+                <Textarea
+                  id="description"
                   rows={4}
                   placeholder="Provide a detailed description of your item."
-                  className="w-full bg-surface-dark border border-border-dark rounded-xl px-4 py-3 text-white placeholder:text-text-secondary focus:ring-2 focus:ring-primary focus:border-primary transition-all outline-none resize-none"
-                ></textarea>
+                  className="w-full bg-surface-dark border-border-dark rounded-xl text-white placeholder:text-text-secondary focus:ring-2 focus:ring-primary resize-none"
+                />
               </motion.div>
 
               {/* Collection */}
@@ -191,26 +206,25 @@ export default function CreateNFTPage() {
                 transition={{ duration: 0.3, delay: 0.55 }}
                 className="flex flex-col gap-3"
               >
-                <label className="text-lg font-bold">Collection</label>
+                <Label htmlFor="collection" className="text-lg font-bold">Collection</Label>
                 <p className="text-sm text-text-secondary -mt-2">
                   This is the collection where your item will appear.
                 </p>
-                <div className="relative">
-                  <button
-                    type="button"
-                    className="flex items-center justify-between w-full bg-surface-dark border border-border-dark rounded-xl px-4 py-3 text-left focus:ring-2 focus:ring-primary transition-all"
-                  >
+                <Select>
+                  <SelectTrigger className="w-full bg-surface-dark border-border-dark rounded-xl text-white">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
                         <Plus className="text-primary w-4 h-4" />
                       </div>
-                      <span className="font-medium">
-                        Create a new collection
-                      </span>
+                      <SelectValue placeholder="Create a new collection" />
                     </div>
-                    <ChevronDown className="text-text-secondary w-5 h-5" />
-                  </button>
-                </div>
+                  </SelectTrigger>
+                  <SelectContent className="bg-surface-dark border-border-dark">
+                    <SelectItem value="new">Create a new collection</SelectItem>
+                    <SelectItem value="collection1">My Collection 1</SelectItem>
+                    <SelectItem value="collection2">My Collection 2</SelectItem>
+                  </SelectContent>
+                </Select>
               </motion.div>
 
               {/* Categories */}
@@ -220,27 +234,25 @@ export default function CreateNFTPage() {
                 transition={{ duration: 0.3, delay: 0.6 }}
                 className="flex flex-col gap-3"
               >
-                <label className="text-lg font-bold">Category</label>
+                <Label className="text-lg font-bold">Category</Label>
                 <div className="flex flex-wrap gap-3">
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                  <Button
                     type="button"
-                    className="px-5 py-2 rounded-full bg-primary text-white font-medium text-sm transition-transform"
+                    variant="default"
+                    className="rounded-full bg-primary hover:bg-primary/90 text-white font-medium text-sm"
                   >
                     Art
-                  </motion.button>
+                  </Button>
                   {["Collectibles", "Music", "Photography", "Sports"].map(
                     (cat) => (
-                      <motion.button
+                      <Button
                         key={cat}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
                         type="button"
-                        className="px-5 py-2 rounded-full bg-surface-dark border border-border-dark text-text-secondary hover:text-white hover:border-white font-medium text-sm transition-all"
+                        variant="outline"
+                        className="rounded-full bg-surface-dark border-border-dark text-text-secondary hover:text-white hover:border-white font-medium text-sm"
                       >
                         {cat}
-                      </motion.button>
+                      </Button>
                     )
                   )}
                 </div>
@@ -310,27 +322,30 @@ export default function CreateNFTPage() {
                 className="flex flex-col gap-6"
               >
                 <div className="flex flex-col gap-3">
-                  <label className="text-lg font-bold">Supply</label>
+                  <Label htmlFor="supply" className="text-lg font-bold">Supply</Label>
                   <p className="text-sm text-text-secondary -mt-2">
                     The number of items that can be minted. No gas cost to you!
                   </p>
-                  <input
+                  <Input
+                    id="supply"
                     type="number"
                     min="1"
                     defaultValue="1"
-                    className="w-full bg-surface-dark border border-border-dark rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-primary transition-all outline-none"
+                    className="w-full bg-surface-dark border-border-dark rounded-xl text-white focus:ring-2 focus:ring-primary"
                   />
                 </div>
                 <div className="flex flex-col gap-3">
-                  <label className="text-lg font-bold">Blockchain</label>
-                  <div className="relative">
-                    <select className="w-full bg-surface-dark border border-border-dark rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-primary appearance-none cursor-pointer outline-none">
-                      <option value="ethereum">Ethereum</option>
-                      <option value="polygon">Polygon</option>
-                      <option value="solana">Solana</option>
-                    </select>
-                    <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-text-secondary pointer-events-none w-5 h-5" />
-                  </div>
+                  <Label htmlFor="blockchain" className="text-lg font-bold">Blockchain</Label>
+                  <Select defaultValue="ethereum">
+                    <SelectTrigger className="w-full bg-surface-dark border-border-dark rounded-xl text-white">
+                      <SelectValue placeholder="Select blockchain" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-surface-dark border-border-dark">
+                      <SelectItem value="ethereum">Ethereum</SelectItem>
+                      <SelectItem value="polygon">Polygon</SelectItem>
+                      <SelectItem value="solana">Solana</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </motion.div>
 
@@ -345,15 +360,14 @@ export default function CreateNFTPage() {
                   <Info className="w-5 h-5" />
                   <span>Gas fees are estimated and may vary.</span>
                 </div>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                <Button
                   type="submit"
-                  className="w-full md:w-auto min-w-50 bg-primary hover:bg-primary/90 text-white font-bold text-lg py-4 px-8 rounded-full shadow-lg shadow-primary/25 transition-all flex items-center justify-center gap-2"
+                  size="lg"
+                  className="w-full md:w-auto min-w-50 bg-primary hover:bg-primary/90 text-white font-bold text-lg py-6 px-8 rounded-full shadow-lg shadow-primary/25"
                 >
                   <span>Create Item</span>
-                  <ArrowRight className="w-5 h-5" />
-                </motion.button>
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
               </motion.div>
             </motion.form>
           </motion.div>

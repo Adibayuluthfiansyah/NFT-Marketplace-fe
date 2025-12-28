@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { Plus } from "lucide-react";
 import { Navbar } from "@/components/ui/layout/Navbar";
 import { UniversalNFTCard, UniversalNFTData } from "@/components/ui/common";
+import { Button } from "@/components/ui/button";
 import {
   ProfileBanner,
   ProfileCard,
@@ -137,14 +138,13 @@ export default function ProfilePage() {
               transition={{ duration: 0.4, delay: 0.8 }}
               className="mt-12 flex justify-center"
             >
-              <motion.button 
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-8 py-3 rounded-full border border-white/10 hover:bg-white/5 text-sm font-bold text-white transition-colors flex items-center gap-2"
+              <Button
+                variant="outline"
+                className="rounded-full border-white/10 hover:bg-white/5 text-sm font-bold text-white px-8 py-3 h-auto"
               >
                 Load More{" "}
-                <span className="text-xs opacity-50">(12 hidden)</span>
-              </motion.button>
+                <span className="text-xs opacity-50 ml-2">(12 hidden)</span>
+              </Button>
             </motion.div>
           </motion.div>
         </div>

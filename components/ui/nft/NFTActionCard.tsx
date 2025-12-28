@@ -1,9 +1,11 @@
 import { Clock, Wallet, Tag } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 export function NFTActionCard() {
   return (
-    <div className="bg-surface-dark/50 rounded-2xl border border-white/10 overflow-hidden p-6 shadow-xl shadow-black/20">
-      <div className="flex flex-col gap-6">
+    <Card className="bg-surface-dark/50 border-white/10 shadow-xl shadow-black/20">
+      <CardContent className="p-6 flex flex-col gap-6">
         <div className="bg-white/5 rounded-xl p-4 flex items-center gap-3 text-sm text-gray-300 border border-white/5">
           <Clock className="w-5 h-5 text-gray-400" />
           <span>
@@ -25,16 +27,23 @@ export function NFTActionCard() {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4">
-          <button className="flex-1 bg-primary hover:bg-primary/90 text-white font-bold text-lg h-12 py-3 rounded-full flex items-center justify-center gap-2 transition-all shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 active:scale-[0.98]">
-            <Wallet className="w-5 h-5" />
+          <Button 
+            className="flex-1 bg-primary hover:bg-primary/90 text-white font-bold text-lg h-12 rounded-full shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30"
+            size="lg"
+          >
+            <Wallet className="w-5 h-5 mr-2" />
             Buy Now
-          </button>
-          <button className="flex-1 bg-transparent border-2 border-white/20 text-white font-bold text-lg h-12 py-3 rounded-full flex items-center justify-center gap-2 hover:border-primary hover:text-primary transition-all active:scale-[0.98]">
-            <Tag className="w-5 h-5" />
+          </Button>
+          <Button 
+            variant="outline"
+            className="flex-1 border-2 border-white/20 text-white font-bold text-lg h-12 rounded-full hover:border-primary hover:text-primary bg-transparent"
+            size="lg"
+          >
+            <Tag className="w-5 h-5 mr-2" />
             Make Offer
-          </button>
+          </Button>
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }
