@@ -36,9 +36,9 @@ export function ProfileCard({
   };
 
   return (
-    <Card className="bg-surface-dark border-white/10 shadow-xl relative overflow-hidden">
+    <Card className="bg-card border-border shadow-xl relative overflow-hidden">
       <CardContent className="p-6">
-        <div className="relative w-24 h-24 rounded-2xl overflow-hidden border-4 border-surface-dark mb-4 shadow-lg">
+        <div className="relative w-24 h-24 rounded-2xl overflow-hidden border-4 border-card mb-4 shadow-lg">
           <Image
             src={avatar}
             alt={`${name}'s profile avatar`}
@@ -48,7 +48,7 @@ export function ProfileCard({
           />
         </div>
 
-        <h2 className="text-2xl font-bold text-white mb-1">{name}</h2>
+        <h2 className="text-2xl font-bold text-foreground mb-1">{name}</h2>
         <div 
           onClick={handleCopyAddress}
           className="flex items-center gap-2 text-primary text-sm font-bold mb-6 cursor-pointer hover:underline group"
@@ -70,7 +70,7 @@ export function ProfileCard({
           </div>
         )}
 
-        <p className="text-gray-400 text-sm leading-relaxed mb-6">{bio}</p>
+        <p className="text-muted-foreground text-sm leading-relaxed mb-6">{bio}</p>
 
         <div className="flex gap-3">
           <Button
@@ -83,7 +83,7 @@ export function ProfileCard({
             onClick={onShare}
             variant="outline"
             size="icon"
-            className="w-12 h-12 rounded-xl border-white/10 hover:bg-white/5 text-gray-400 hover:text-white"
+            className="w-12 h-12 rounded-xl border-border hover:bg-muted text-muted-foreground hover:text-foreground"
             aria-label="Share profile"
           >
             <Share2 className="w-4 h-4" />
@@ -91,7 +91,7 @@ export function ProfileCard({
           <Button
             variant="outline"
             size="icon"
-            className="w-12 h-12 rounded-xl border-white/10 hover:bg-white/5 text-gray-400 hover:text-white"
+            className="w-12 h-12 rounded-xl border-border hover:bg-muted text-muted-foreground hover:text-foreground"
             aria-label="More options"
           >
             <MoreHorizontal className="w-4 h-4" />

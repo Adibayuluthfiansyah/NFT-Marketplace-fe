@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export function ProfileSkeleton() {
   return (
-    <div className="min-h-screen bg-background-dark text-white font-display pb-12">
+    <div className="min-h-screen bg-background text-foreground font-display pb-12">
       {/* Banner Skeleton */}
       <Skeleton className="h-48 md:h-64 w-full" />
       
@@ -10,7 +10,7 @@ export function ProfileSkeleton() {
         <div className="flex flex-col lg:flex-row gap-8 items-start">
           {/* Sidebar Skeleton */}
           <div className="w-full lg:w-80 flex flex-col gap-6 shrink-0">
-            <div className="bg-surface-dark border border-white/10 rounded-2xl p-6">
+            <div className="bg-card border border-border rounded-2xl p-6">
               <Skeleton className="w-24 h-24 rounded-2xl mb-4" />
               <Skeleton className="h-8 w-3/4 mb-2" />
               <Skeleton className="h-4 w-1/2 mb-6" />
@@ -26,7 +26,7 @@ export function ProfileSkeleton() {
           {/* Content Skeleton */}
           <div className="flex-1 w-full min-w-0">
             {/* Tabs Skeleton */}
-            <div className="flex gap-2 mb-8 border-b border-white/10 pb-1">
+            <div className="flex gap-2 mb-8 border-b border-border pb-1">
               {[1, 2, 3, 4, 5].map((i) => (
                 <Skeleton key={i} className="h-10 w-24 rounded-t-lg" />
               ))}
@@ -42,7 +42,7 @@ export function ProfileSkeleton() {
             {/* NFT Grid Skeleton */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} className="bg-surface-dark border border-white/10 rounded-2xl overflow-hidden">
+                <div key={i} className="bg-card border border-border rounded-2xl overflow-hidden">
                   <Skeleton className="aspect-square w-full" />
                   <div className="p-4 space-y-3">
                     <Skeleton className="h-5 w-3/4" />

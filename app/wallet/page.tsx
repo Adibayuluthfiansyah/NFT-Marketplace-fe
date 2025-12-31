@@ -22,8 +22,6 @@ export default function WalletPage() {
       date: "2 hours ago",
       image:
         "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=200",
-      statusColor: "text-primary",
-      bgStatus: "bg-primary/10",
       icon: Coins,
       isPositive: false,
     },
@@ -37,8 +35,6 @@ export default function WalletPage() {
       date: "Yesterday",
       image:
         "https://images.unsplash.com/photo-1633101585299-90c749b5ee94?q=80&w=200",
-      statusColor: "text-green-400",
-      bgStatus: "bg-green-400/10",
       icon: Tag,
       isPositive: true,
     },
@@ -52,31 +48,31 @@ export default function WalletPage() {
       date: "3 days ago",
       image:
         "https://images.unsplash.com/photo-1614726365723-49cfae92782f?q=80&w=200",
-      statusColor: "text-blue-400",
-      bgStatus: "bg-blue-400/10",
       icon: ShoppingBag,
       isPositive: false,
     },
   ];
 
   return (
-    <div className="min-h-screen bg-background-dark font-display text-white">
+    <div className="min-h-screen bg-background text-foreground flex flex-col">
       <Navbar />
 
-      <main className="flex h-full grow flex-col py-8 px-4 sm:px-10 lg:px-40">
-        <div className="flex flex-col max-w-300 mx-auto w-full flex-1 gap-8">
-          <WalletHeader network="Ethereum Mainnet" />
+      <main className="flex-1 py-8 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col gap-8">
+            <WalletHeader network="Ethereum Mainnet" />
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <WalletBalanceCard
-              balance="4.20"
-              balanceUSD="12,450.00"
-              address="0x8a72...4f91"
-            />
-            <WalletQuickActions />
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <WalletBalanceCard
+                balance="4.20"
+                balanceUSD="12,450.00"
+                address="0x8a72...4f91"
+              />
+              <WalletQuickActions />
+            </div>
+
+            <WalletTransactionList transactions={transactions} />
           </div>
-
-          <WalletTransactionList transactions={transactions} />
         </div>
       </main>
     </div>

@@ -1,20 +1,21 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Noto_Sans } from "next/font/google";
+import { Inter, DM_Sans } from "next/font/google";
 import { Footer } from "@/components/ui/layout/Footer";
 import { Toaster } from "@/components/ui/sonner";
 import { defaultMetadata } from "@/lib/metadata";
 import "./globals.css";
 
-// Setup Font
-const spaceGrotesk = Space_Grotesk({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-space-grotesk",
+  variable: "--font-inter",
+  display: "swap",
 });
 
-const notoSans = Noto_Sans({
+const dmSans = DM_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
-  variable: "--font-noto-sans",
+  variable: "--font-dm-sans",
+  display: "swap",
 });
 
 export const metadata: Metadata = defaultMetadata;
@@ -27,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <body
-        className={`${spaceGrotesk.variable} ${notoSans.variable} font-display bg-background-dark text-white min-h-screen flex flex-col`}
+        className={`${inter.variable} ${dmSans.variable} font-sans antialiased`}
       >
         {children}
         <Footer />

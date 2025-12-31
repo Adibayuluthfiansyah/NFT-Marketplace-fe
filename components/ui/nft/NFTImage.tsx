@@ -7,11 +7,11 @@ export function NFTImage({ image }: { image: string }) {
       <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-purple-600 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
 
       {/* Container Gambar */}
-      <div className="relative w-full aspect-square rounded-2xl overflow-hidden bg-surface-dark border border-white/10 shadow-2xl">
+      <div className="relative w-full aspect-square rounded-2xl overflow-hidden bg-card border border-border shadow-2xl">
         <div className="absolute top-4 right-4 flex gap-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
           <button 
             aria-label="View full image"
-            className="size-8 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white hover:bg-primary transition-colors"
+            className="size-8 rounded-full bg-background/80 backdrop-blur-md flex items-center justify-center text-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
           >
             <ExternalLink className="w-4 h-4" />
           </button>

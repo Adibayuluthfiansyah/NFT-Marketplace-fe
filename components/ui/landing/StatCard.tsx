@@ -7,16 +7,16 @@ interface StatCardProps {
 export function StatCard({ value, label, index = 0 }: StatCardProps) {
   return (
     <div
-      className="group relative p-8 rounded-3xl bg-gradient-to-br from-surface-dark to-surface-darker border border-white/10 hover:border-primary/50 transition-all duration-500 hover:scale-110 hover:-translate-y-2 cursor-pointer"
+      className="group relative p-8 rounded-3xl bg-gradient-to-br from-card to-card/50 border border-border hover:border-primary/50 transition-all duration-500 hover:scale-110 hover:-translate-y-2 cursor-pointer"
       style={{ animationDelay: `${index * 100}ms` }}
     >
       {/* Number */}
-      <p className="text-4xl md:text-5xl font-black text-white group-hover:text-primary transition-colors mb-2">
+      <p className="text-4xl md:text-5xl font-black text-foreground group-hover:text-primary transition-colors mb-2">
         {value}
       </p>
       
       {/* Label */}
-      <p className="text-sm text-gray-400 font-semibold">
+      <p className="text-sm text-muted-foreground font-semibold">
         {label}
       </p>
 

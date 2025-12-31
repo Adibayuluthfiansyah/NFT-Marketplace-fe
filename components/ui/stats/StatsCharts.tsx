@@ -2,6 +2,7 @@
 
 import { Maximize2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import {
   AreaChart,
   Area,
@@ -11,95 +12,95 @@ import {
   PieChart,
   Pie,
   Cell,
+  TooltipProps,
 } from "recharts";
+import { VolumeDataPoint, CategoryData } from "@/app/types/stats";
 
-export function StatsCharts() {
-  // Convert SVG path to data points (extracted from original path coordinates)
-  const volumeData = [
-    { time: "00:00", ETH: 109 },
-    { time: "01:00", ETH: 21 },
-    { time: "02:00", ETH: 41 },
-    { time: "03:00", ETH: 93 },
-    { time: "04:00", ETH: 33 },
-    { time: "05:00", ETH: 101 },
-    { time: "06:00", ETH: 61 },
-    { time: "07:00", ETH: 45 },
-    { time: "08:00", ETH: 121 },
-    { time: "09:00", ETH: 149 },
-    { time: "10:00", ETH: 1 },
-    { time: "11:00", ETH: 81 },
-    { time: "12:00", ETH: 129 },
-    { time: "13:00", ETH: 25 },
-    { time: "14:00", ETH: 65 },
-    { time: "15:00", ETH: 89 },
-    { time: "16:00", ETH: 112 },
-    { time: "17:00", ETH: 77 },
-    { time: "18:00", ETH: 95 },
-    { time: "19:00", ETH: 55 },
-    { time: "20:00", ETH: 103 },
-    { time: "21:00", ETH: 73 },
-    { time: "22:00", ETH: 118 },
-    { time: "23:00", ETH: 87 },
-    { time: "24:00", ETH: 105 },
-  ];
+interface StatsChartsProps {
+  volumeData: VolumeDataPoint[];
+  categoryData: CategoryData[];
+}
 
-  const categoryData = [
-    { name: "PFP Art", value: 45, color: "rgb(90 11 184)" },
-    { name: "Gaming", value: 25, color: "rgb(var(--chart-green))" },
-    { name: "Utility", value: 15, color: "rgb(var(--chart-orange))" },
-    { name: "Others", value: 15, color: "#302839" },
-  ];
+interface CustomTooltipProps extends TooltipProps<number, string> {
+  active?: boolean;
+  payload?: Array<{
+    value: number;
+    dataKey: string;
+  }>;
+  label?: string;
+}
+
+function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-card border border-border rounded-lg p-3 shadow-lg">
+        <p className="text-muted-foreground text-sm mb-1">{label}</p>
+        <p className="text-foreground font-semibold">
+          {payload[0].value} ETH
+        </p>
+      </div>
+    );
+  }
+  return null;
+}
+
+export function StatsCharts({ volumeData, categoryData }: StatsChartsProps) {
+  const topCategory = categoryData.reduce((prev, current) =>
+    prev.value > current.value ? prev : current
+  );
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
       {/* Volume Chart */}
-      <Card className="lg:col-span-2 flex flex-col gap-2 rounded-2xl border-stats-border bg-stats-surface p-6">
-        <div className="flex justify-between items-center mb-4">
+      <Card className="lg:col-span-2 flex flex-col gap-4 p-6 bg-card border-border">
+        <div className="flex justify-between items-center">
           <div>
-            <p className="text-white text-lg font-bold">Volume Trends</p>
-            <p className="text-text-secondary text-sm">
+            <h3 className="text-lg font-bold text-foreground">Volume Trends</h3>
+            <p className="text-sm text-muted-foreground">
               Ethereum Network • Last 24 Hours
             </p>
           </div>
-          <button className="size-8 flex items-center justify-center rounded-full bg-stats-border hover:bg-white/10 text-white transition-colors">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="w-8 h-8 rounded-full hover:bg-muted"
+          >
             <Maximize2 className="w-4 h-4" />
-          </button>
+          </Button>
         </div>
 
-        <div className="w-full h-[200px] mt-4">
+        <div className="w-full h-[200px] mt-2">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={volumeData}>
               <defs>
-                <linearGradient id="colorVolume" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="rgb(90 11 184)" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="rgb(90 11 184)" stopOpacity={0} />
+                <linearGradient id="volumeGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop
+                    offset="5%"
+                    stopColor="#7c3aed"
+                    stopOpacity={0.3}
+                  />
+                  <stop
+                    offset="95%"
+                    stopColor="#7c3aed"
+                    stopOpacity={0}
+                  />
                 </linearGradient>
               </defs>
               <XAxis
                 dataKey="time"
-                stroke="#64748b"
-                tick={{ fill: "#64748b", fontSize: 11 }}
+                stroke="#94a3b8"
+                tick={{ fill: "#94a3b8", fontSize: 11 }}
                 tickLine={false}
                 axisLine={false}
                 interval="preserveEnd"
-                ticks={["00:00", "06:00", "12:00", "18:00", "24:00"]}
               />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: "#1a1a2e",
-                  border: "1px solid #2a2a3e",
-                  borderRadius: "8px",
-                  color: "#fff",
-                }}
-                itemStyle={{ color: "#fff" }}
-                labelStyle={{ color: "#94a3b8" }}
-              />
+              <Tooltip content={<CustomTooltip />} />
               <Area
-                type="natural"
-                dataKey="ETH"
-                stroke="rgb(90 11 184)"
-                strokeWidth={3}
-                fill="url(#colorVolume)"
+                type="monotone"
+                dataKey="volume"
+                stroke="#7c3aed"
+                strokeWidth={2}
+                fill="url(#volumeGradient)"
                 dot={false}
               />
             </AreaChart>
@@ -107,9 +108,10 @@ export function StatsCharts() {
         </div>
       </Card>
 
-      {/* Category Donut */}
-      <Card className="flex flex-col gap-4 rounded-2xl border-stats-border bg-stats-surface p-6">
-        <p className="text-white text-lg font-bold">Category Share</p>
+      {/* Category Distribution */}
+      <Card className="flex flex-col gap-4 p-6 bg-card border-border">
+        <h3 className="text-lg font-bold text-foreground">Category Share</h3>
+        
         <div className="flex-1 flex items-center justify-center relative min-h-[180px]">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
@@ -127,33 +129,46 @@ export function StatsCharts() {
                 ))}
               </Pie>
               <Tooltip
-                contentStyle={{
-                  backgroundColor: "#1a1a2e",
-                  border: "1px solid #2a2a3e",
-                  borderRadius: "8px",
-                  color: "#fff",
+                content={({ active, payload }) => {
+                  if (active && payload && payload.length) {
+                    return (
+                      <div className="bg-card border border-border rounded-lg p-3 shadow-lg">
+                        <p className="text-foreground font-semibold">
+                          {payload[0].name}: {payload[0].value}%
+                        </p>
+                      </div>
+                    );
+                  }
+                  return null;
                 }}
-                itemStyle={{ color: "#fff" }}
               />
             </PieChart>
           </ResponsiveContainer>
+          
+          {/* Center Label */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <div className="flex flex-col items-center">
-              <span className="text-2xl font-bold text-white">45%</span>
-              <span className="text-xs text-text-secondary uppercase font-bold">
-                PFP
+              <span className="text-2xl font-bold text-foreground">
+                {topCategory.value}%
+              </span>
+              <span className="text-xs text-muted-foreground uppercase font-semibold">
+                {topCategory.name}
               </span>
             </div>
           </div>
         </div>
+
+        {/* Legend */}
         <div className="grid grid-cols-2 gap-3 mt-auto">
-          {categoryData.map((c) => (
-            <div key={c.name} className="flex items-center gap-2">
+          {categoryData.map((category) => (
+            <div key={category.name} className="flex items-center gap-2">
               <div
-                className="size-3 rounded-full"
-                style={{ backgroundColor: c.color }}
-              ></div>
-              <span className="text-sm font-medium text-white">{c.name}</span>
+                className="w-3 h-3 rounded-full"
+                style={{ backgroundColor: category.color }}
+              />
+              <span className="text-sm font-medium text-foreground">
+                {category.name}
+              </span>
             </div>
           ))}
         </div>

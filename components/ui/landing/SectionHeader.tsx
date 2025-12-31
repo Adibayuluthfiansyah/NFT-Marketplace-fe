@@ -34,7 +34,7 @@ export function SectionHeader({
         {highlight && <span className="text-primary">{highlight}</span>}
       </h2>
       
-      <p className={`text-gray-400 text-lg ${alignment === "center" ? "max-w-2xl" : ""}`}>
+      <p className={`text-muted-foreground text-lg ${alignment === "center" ? "max-w-2xl" : ""}`}>
         {description}
       </p>
     </div>

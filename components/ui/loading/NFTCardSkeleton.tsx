@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export function NFTCardSkeleton() {
   return (
-    <div className="flex flex-col bg-surface-dark rounded-3xl overflow-hidden border border-white/10">
+    <div className="flex flex-col bg-card rounded-3xl overflow-hidden border border-border">
       {/* Image Skeleton */}
       <Skeleton className="aspect-square w-full" />
       
@@ -15,7 +15,7 @@ export function NFTCardSkeleton() {
           <Skeleton className="h-4 w-24" />
         </div>
         
-        <div className="flex justify-between items-center mt-2 pt-3 border-t border-white/10">
+        <div className="flex justify-between items-center mt-2 pt-3 border-t border-border">
           <div className="space-y-2">
             <Skeleton className="h-3 w-12" />
             <Skeleton className="h-5 w-20" />

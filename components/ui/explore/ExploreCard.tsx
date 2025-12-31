@@ -19,9 +19,9 @@ interface ExploreNFTProps {
 
 export function ExploreCard({ data }: ExploreNFTProps) {
   return (
-    <div className="group relative flex flex-col bg-surface-dark rounded-2xl overflow-hidden border border-white/5 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300">
+    <div className="group relative flex flex-col bg-card rounded-2xl overflow-hidden border border-border hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300">
       {/* Image Area */}
-      <div className="relative aspect-square overflow-hidden bg-gray-800">
+      <div className="relative aspect-square overflow-hidden bg-muted">
         <Image
           src={data.image}
           alt={data.name}
@@ -30,15 +30,15 @@ export function ExploreCard({ data }: ExploreNFTProps) {
           height={400}
         />
         {/* Likes Badge */}
-        <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-1 border border-white/10 z-10">
-          <Heart className="w-3 h-3 text-gray-400 hover:text-red-500 transition-colors" />
-          <span className="text-xs font-bold text-white">{data.likes}</span>
+        <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-1 border border-border z-10">
+          <Heart className="w-3 h-3 text-muted-foreground hover:text-red-500 transition-colors" />
+          <span className="text-xs font-bold text-foreground">{data.likes}</span>
         </div>
 
         {/* Special Badge (Live/Offer) */}
         {data.badge && (
           <div
-            className={`absolute bottom-3 left-3 text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg uppercase tracking-wide border border-white/10 z-10 ${
+            className={`absolute bottom-3 left-3 text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg uppercase tracking-wide border border-border z-10 ${
               data.badgeColor || "bg-primary"
             }`}
           >
@@ -50,26 +50,26 @@ export function ExploreCard({ data }: ExploreNFTProps) {
       {/* Content Area */}
       <div className="p-4 flex flex-col gap-3 flex-1">
         <div>
-          <h3 className="text-base font-bold text-white leading-tight group-hover:text-primary transition-colors truncate w-full">
+          <h3 className="text-base font-bold text-foreground leading-tight group-hover:text-primary transition-colors truncate w-full">
             {data.name}
           </h3>
-          <p className="text-xs text-gray-400 mt-1">{data.author}</p>
+          <p className="text-xs text-muted-foreground mt-1">{data.author}</p>
         </div>
 
-        <div className="mt-auto pt-3 border-t border-white/5 flex justify-between items-end">
+        <div className="mt-auto pt-3 border-t border-border flex justify-between items-end">
           <div>
-            <p className="text-[10px] uppercase font-bold text-gray-500 tracking-wider">
+            <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">
               {data.priceLabel}
             </p>
             <div className="flex items-center gap-1">
-              <DollarSign className="w-3 h-3 text-white" />
-              <span className="text-base font-bold text-white">
+              <DollarSign className="w-3 h-3 text-foreground" />
+              <span className="text-base font-bold text-foreground">
                 {data.price}
               </span>
             </div>
           </div>
           {data.timeLeft && (
-            <span className="text-xs text-gray-400 font-mono">
+            <span className="text-xs text-muted-foreground font-mono">
               {data.timeLeft}
             </span>
           )}

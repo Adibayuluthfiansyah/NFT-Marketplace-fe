@@ -17,13 +17,13 @@ interface Trait {
 
 export function NFTProperties({ traits }: { traits: Trait[] }) {
   return (
-    <Card className="bg-surface-dark/50 border-white/10 overflow-hidden">
+    <Card className="bg-card border-border overflow-hidden">
       <Accordion type="single" collapsible defaultValue="properties">
         <AccordionItem value="properties" className="border-none">
-          <AccordionTrigger className="px-5 py-4 hover:bg-white/5 transition-colors hover:no-underline">
+          <AccordionTrigger className="px-5 py-4 hover:bg-muted/50 transition-colors hover:no-underline">
             <div className="flex items-center gap-3">
-              <Tag className="w-5 h-5 text-gray-400" />
-              <h3 className="font-bold text-lg text-white">Properties</h3>
+              <Tag className="w-5 h-5 text-muted-foreground" />
+              <h3 className="font-bold text-lg text-foreground">Properties</h3>
             </div>
           </AccordionTrigger>
           <AccordionContent className="px-5 pb-5">
@@ -36,10 +36,10 @@ export function NFTProperties({ traits }: { traits: Trait[] }) {
                   <span className="text-[10px] text-primary uppercase font-bold tracking-wider mb-1">
                     {prop.label}
                   </span>
-                  <span className="text-white font-medium text-sm mb-1">
+                  <span className="text-foreground font-medium text-sm mb-1">
                     {prop.val}
                   </span>
-                  <span className="text-[10px] text-gray-500 group-hover:text-gray-400">
+                  <span className="text-[10px] text-muted-foreground group-hover:text-muted-foreground/80">
                     {prop.pct} have this
                   </span>
                 </div>

@@ -22,7 +22,7 @@ export function MoreCollection() {
   return (
     <div className="mt-16 mb-8">
       <div className="flex items-center justify-between mb-8">
-        <h3 className="text-2xl font-bold text-white">
+        <h3 className="text-2xl font-bold text-foreground">
           More from this collection
         </h3>
         <Link href="/explore" className="text-primary font-bold hover:underline">

@@ -21,7 +21,7 @@ export function FeaturedNFTCard({
 }: FeaturedNFTCardProps) {
   return (
     <Link href={`/nft/${id}`}>
-      <div className="group relative flex flex-col bg-surface-dark rounded-3xl overflow-hidden border border-white/10 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/30 transition-all duration-500 hover:scale-105 cursor-pointer">
+      <div className="group relative flex flex-col bg-card rounded-3xl overflow-hidden border border-border hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/30 transition-all duration-500 hover:scale-105 cursor-pointer">
         {/* Trend Badge */}
         {trend && (
           <div className="absolute top-3 right-3 z-10 px-3 py-1 rounded-full bg-green-500/90 backdrop-blur-sm text-white text-xs font-bold flex items-center gap-1">
@@ -38,7 +38,7 @@ export function FeaturedNFTCard({
             fill
             className="object-cover transition-transform duration-700 group-hover:scale-110"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-surface-dark via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         </div>
 
         {/* Content */}
@@ -49,14 +49,14 @@ export function FeaturedNFTCard({
 
           <div className="flex items-center gap-2">
             <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-pink-500" />
-            <p className="text-sm text-gray-400">
-              <span className="text-white font-semibold">{creator}</span>
+            <p className="text-sm text-muted-foreground">
+              <span className="text-foreground font-semibold">{creator}</span>
             </p>
           </div>
 
-          <div className="flex justify-between items-center mt-2 pt-3 border-t border-white/10">
+          <div className="flex justify-between items-center mt-2 pt-3 border-t border-border">
             <div>
-              <p className="text-xs text-gray-500 mb-1">Harga</p>
+              <p className="text-xs text-muted-foreground mb-1">Harga</p>
               <p className="text-lg font-black text-primary">{price} ETH</p>
             </div>
             <button className="px-4 py-2 rounded-xl bg-primary/10 hover:bg-primary text-primary hover:text-white font-bold text-sm transition-all">

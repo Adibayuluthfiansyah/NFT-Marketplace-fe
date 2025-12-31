@@ -56,45 +56,34 @@ const UniversalNFTCardComponent = ({
   if (variant === "explore") {
     return (
       <motion.div 
-        whileHover={{ y: -8, scale: 1.02 }}
-        transition={{ duration: 0.3 }}
-        className="group relative flex flex-col bg-surface-dark rounded-2xl overflow-hidden border border-white/5 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10"
+        whileHover={{ y: -6 }}
+        transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+        className="group relative flex flex-col bg-card rounded-xl overflow-hidden border border-border hover:border-primary/40 hover:shadow-card-hover transition-all duration-300"
       >
         {/* Image Area */}
-        <div className="relative aspect-square overflow-hidden bg-gray-800">
-          <motion.div
-            whileHover={{ scale: 1.1 }}
-            transition={{ duration: 0.5 }}
-            className="w-full h-full"
-          >
-            <Image
-              src={nft.image}
-              alt={nft.name}
-              className="absolute inset-0 w-full h-full object-cover"
-              width={400}
-              height={400}
-              priority={nft.priority}
-              loading={nft.priority ? "eager" : "lazy"}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              placeholder="blur"
-              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-            />
-          </motion.div>
+        <div className="relative aspect-square overflow-hidden bg-muted">
+          <Image
+            src={nft.image}
+            alt={nft.name}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            width={400}
+            height={400}
+            priority={nft.priority}
+            loading={nft.priority ? "eager" : "lazy"}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
           {/* Likes Badge */}
           {showLikes && nft.likes !== undefined && (
-            <motion.div 
-              whileHover={{ scale: 1.1 }}
-              className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-1 border border-white/10 z-10 cursor-pointer"
-            >
-              <Heart className="w-3 h-3 text-gray-400 hover:text-red-500 transition-colors" />
-              <span className="text-xs font-bold text-white">{nft.likes}</span>
-            </motion.div>
+            <div className="absolute top-3 right-3 bg-card/80 backdrop-blur-md rounded-full px-3 py-1.5 flex items-center gap-1.5 border border-border z-10">
+              <Heart className="w-3.5 h-3.5 text-muted-foreground" />
+              <span className="text-xs font-semibold text-foreground">{nft.likes}</span>
+            </div>
           )}
 
           {/* Special Badge (Live/Offer) */}
           {showBadge && nft.badge && (
             <div
-              className={`absolute bottom-3 left-3 text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg uppercase tracking-wide border border-white/10 z-10 ${
+              className={`absolute bottom-3 left-3 text-white text-[10px] font-semibold px-2.5 py-1 rounded-md shadow-sm uppercase tracking-wide z-10 ${
                 nft.badgeColor || "bg-primary"
               }`}
             >
@@ -106,28 +95,25 @@ const UniversalNFTCardComponent = ({
         {/* Content Area */}
         <div className="p-4 flex flex-col gap-3 flex-1">
           <div>
-            <h3 className="text-base font-bold text-white leading-tight group-hover:text-primary transition-colors truncate w-full">
+            <h3 className="text-base font-semibold text-foreground leading-snug group-hover:text-primary transition-colors line-clamp-1">
               {nft.name}
             </h3>
             {creatorName && (
-              <p className="text-xs text-gray-400 mt-1">{creatorName}</p>
+              <p className="text-xs text-muted-foreground mt-1 line-clamp-1">{creatorName}</p>
             )}
           </div>
 
-          <div className="mt-auto pt-3 border-t border-white/5 flex justify-between items-end">
+          <div className="mt-auto pt-3 border-t border-border flex justify-between items-end">
             <div>
-              <p className="text-[10px] uppercase font-bold text-gray-500 tracking-wider">
+              <p className="text-[10px] uppercase font-semibold text-muted-foreground tracking-wide mb-1">
                 {nft.priceLabel || "Price"}
               </p>
-              <div className="flex items-center gap-1">
-                <DollarSign className="w-3 h-3 text-white" />
-                <span className="text-base font-bold text-white">
-                  {nft.price}
-                </span>
-              </div>
+              <span className="text-base font-bold text-foreground">
+                {nft.price} <span className="text-sm font-normal text-muted-foreground">ETH</span>
+              </span>
             </div>
             {nft.timeLeft && (
-              <span className="text-xs text-gray-400 font-mono">
+              <span className="text-xs text-muted-foreground font-medium">
                 {nft.timeLeft}
               </span>
             )}
@@ -136,15 +122,15 @@ const UniversalNFTCardComponent = ({
           {/* Action Button */}
           {actionButton && (
             <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               onClick={actionButton.onClick}
-              className={`w-full mt-3 py-2 rounded-lg text-sm font-bold transition-all duration-300 shadow-lg
+              className={`w-full mt-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 shadow-sm
                 ${
                   actionButton.variant === "primary" ||
                   actionButton.label === "Buy Now"
-                    ? "bg-primary hover:bg-primary/90 text-white"
-                    : "bg-primary/10 hover:bg-primary text-primary hover:text-white backdrop-blur-sm border border-primary/30"
+                    ? "bg-primary hover:bg-primary/90 text-primary-foreground"
+                    : "bg-primary/10 hover:bg-primary text-primary hover:text-primary-foreground border border-primary/20"
                 }
               `}
             >
@@ -161,70 +147,58 @@ const UniversalNFTCardComponent = ({
     return (
       <Link href={`/nft/${cardId}`}>
         <motion.div 
-          whileHover={{ scale: 1.05, y: -5 }}
-          transition={{ duration: 0.3 }}
-          className="group relative flex flex-col bg-surface-dark rounded-3xl overflow-hidden border border-white/10 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/30 cursor-pointer"
+          whileHover={{ y: -8 }}
+          transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+          className="group relative flex flex-col bg-card rounded-xl overflow-hidden border border-border hover:border-primary/40 hover:shadow-card-hover transition-all duration-300 cursor-pointer"
         >
           {/* Trend Badge */}
           {showTrend && nft.trend && (
-            <motion.div 
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.3 }}
-              className="absolute top-3 right-3 z-10 px-3 py-1 rounded-full bg-green-500/90 backdrop-blur-sm text-white text-xs font-bold flex items-center gap-1"
-            >
-              <TrendingUp className="w-3 h-3" />
+            <div className="absolute top-4 right-4 z-10 px-3 py-1.5 rounded-full bg-secondary/90 backdrop-blur-sm text-secondary-foreground text-xs font-semibold flex items-center gap-1.5 shadow-sm">
+              <TrendingUp className="w-3.5 h-3.5" />
               {nft.trend}
-            </motion.div>
+            </div>
           )}
 
           {/* Image with Gradient Overlay */}
-          <div className="relative aspect-square overflow-hidden">
-            <motion.div
-              whileHover={{ scale: 1.1 }}
-              transition={{ duration: 0.7 }}
-            >
-              <Image
-                src={nft.image}
-                alt={nft.name}
-                fill
-                className="object-cover"
-                priority={nft.priority}
-                loading={nft.priority ? "eager" : "lazy"}
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                placeholder="blur"
-                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-              />
-            </motion.div>
-            <div className="absolute inset-0 bg-linear-to-t from-surface-dark via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <div className="relative aspect-square overflow-hidden bg-muted">
+            <Image
+              src={nft.image}
+              alt={nft.name}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              priority={nft.priority}
+              loading={nft.priority ? "eager" : "lazy"}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           </div>
 
           {/* Content */}
-          <div className="p-5 flex flex-col gap-3">
-            <h3 className="text-xl font-black group-hover:text-primary transition-colors">
-              {nft.name}
-            </h3>
-
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-pink-500" />
-              <p className="text-sm text-gray-400">
-                <span className="text-white font-semibold">{creatorName}</span>
-              </p>
+          <div className="p-5 flex flex-col gap-3.5">
+            <div>
+              <h3 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-1">
+                {nft.name}
+              </h3>
+              {creatorName && (
+                <p className="text-sm text-muted-foreground mt-1 line-clamp-1">
+                  {creatorName}
+                </p>
+              )}
             </div>
 
-            <div className="flex justify-between items-center mt-2 pt-3 border-t border-white/10">
+            <div className="flex justify-between items-center pt-3 border-t border-border">
               <div>
-                <p className="text-xs text-gray-500 mb-1">Harga</p>
-                <p className="text-lg font-black text-primary">
-                  {nft.price} ETH
+                <p className="text-xs text-muted-foreground mb-1">Price</p>
+                <p className="text-base font-bold text-foreground">
+                  {nft.price} <span className="text-sm font-normal text-muted-foreground">ETH</span>
                 </p>
               </div>
               <motion.button 
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                className="px-4 py-2 rounded-xl bg-primary/10 hover:bg-primary text-primary hover:text-white font-bold text-sm transition-all"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-4 py-2 rounded-lg bg-primary/10 hover:bg-primary text-primary hover:text-primary-foreground font-medium text-sm transition-all shadow-sm"
               >
-                Beli
+                Buy
               </motion.button>
             </div>
           </div>
@@ -295,7 +269,7 @@ const UniversalNFTCardComponent = ({
         <motion.div 
           whileHover={{ y: -5, scale: 1.02 }}
           transition={{ duration: 0.3 }}
-          className="group relative flex flex-col bg-surface-dark rounded-2xl overflow-hidden border border-white/10 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/20 cursor-pointer"
+          className="group relative flex flex-col bg-card rounded-2xl overflow-hidden border border-border hover:border-primary/50 hover:shadow-xl hover:shadow-primary/20 cursor-pointer"
         >
           {/* Image */}
           <div className="relative aspect-square overflow-hidden">
@@ -323,13 +297,13 @@ const UniversalNFTCardComponent = ({
 
           {/* Content */}
           <div className="p-4">
-            <h3 className="text-base font-bold text-white group-hover:text-primary transition-colors truncate">
+            <h3 className="text-base font-bold text-foreground group-hover:text-primary transition-colors truncate">
               {nft.name}
             </h3>
             <div className="flex justify-between items-center mt-2">
-              <span className="text-sm text-gray-400">{nft.price} ETH</span>
+              <span className="text-sm text-muted-foreground">{nft.price} ETH</span>
               {nft.tokenId && (
-                <span className="text-xs text-gray-500">#{nft.tokenId}</span>
+                <span className="text-xs text-muted-foreground">#{nft.tokenId}</span>
               )}
             </div>
           </div>

@@ -23,7 +23,7 @@ export function NFTHeader({ id }: { id: string }) {
           className="text-primary hover:text-primary/80 font-bold text-lg flex items-center gap-1"
         >
           Azuki Collection
-          <CheckCircle className="w-5 h-5 fill-primary text-background-dark" />
+          <CheckCircle className="w-5 h-5 fill-primary text-background" />
         </a>
         <TooltipProvider>
           <div className="flex items-center gap-2">
@@ -32,7 +32,7 @@ export function NFTHeader({ id }: { id: string }) {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="text-gray-400 hover:text-white hover:bg-white/10 rounded-full"
+                  className="text-muted-foreground hover:text-foreground hover:bg-muted rounded-full"
                 >
                   <RefreshCw className="w-5 h-5" />
                 </Button>
@@ -47,7 +47,7 @@ export function NFTHeader({ id }: { id: string }) {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="text-gray-400 hover:text-white hover:bg-white/10 rounded-full"
+                  className="text-muted-foreground hover:text-foreground hover:bg-muted rounded-full"
                 >
                   <Share2 className="w-5 h-5" />
                 </Button>
@@ -62,7 +62,7 @@ export function NFTHeader({ id }: { id: string }) {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="text-gray-400 hover:text-white hover:bg-white/10 rounded-full"
+                  className="text-muted-foreground hover:text-foreground hover:bg-muted rounded-full"
                 >
                   <MoreHorizontal className="w-5 h-5" />
                 </Button>
@@ -75,25 +75,25 @@ export function NFTHeader({ id }: { id: string }) {
         </TooltipProvider>
       </div>
 
-      <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
+      <h1 className="text-4xl md:text-5xl font-bold text-foreground tracking-tight">
         Azuki #{id}
       </h1>
 
       <div className="flex items-center gap-6 mt-1 flex-wrap">
-        <div className="flex items-center gap-2 text-sm text-gray-400">
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <span>Owned by</span>
           <a
             href="#"
-            className="flex items-center gap-2 text-white hover:text-primary font-medium"
+            className="flex items-center gap-2 text-foreground hover:text-primary font-medium"
           >
             <div className="size-5 rounded-full bg-gradient-to-tr from-orange-400 to-pink-500"></div>
             CryptoKing
           </a>
         </div>
-        <div className="flex items-center gap-2 text-sm text-gray-400">
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <Eye className="w-4 h-4" /> <span>4.2K views</span>
         </div>
-        <button className="flex items-center gap-2 text-sm text-gray-400 hover:text-red-500 cursor-pointer transition-colors">
+        <button className="flex items-center gap-2 text-sm text-muted-foreground hover:text-red-500 cursor-pointer transition-colors">
           <Heart className="w-4 h-4" /> <span>205 favorites</span>
         </button>
       </div>

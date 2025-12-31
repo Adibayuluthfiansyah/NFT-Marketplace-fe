@@ -1,8 +1,8 @@
-import { Orbitron } from "next/font/google";
+import { DM_Sans } from "next/font/google";
 import Link from "next/link";
 import Image from "next/image";
 
-const orbitron = Orbitron({
+const dmSans = DM_Sans({
   subsets: ["latin"],
   weight: ["700", "900"],
 });
@@ -11,7 +11,7 @@ export function NavLogo() {
   return (
     <Link
       href="/"
-      className="flex items-center gap-1 text-slate-900 dark:text-white group"
+      className="flex items-center gap-1 text-slate-900 dark:text-foreground group"
     >
       <div className="relative w-10 h-10 shrink-0">
         <Image
@@ -23,7 +23,7 @@ export function NavLogo() {
         />
       </div>
       <h2
-        className={`${orbitron.className} text-2xl font-bold tracking-tighter leading-none mt-0.5`}
+        className={`${dmSans.className} text-2xl font-bold tracking-tighter leading-none mt-0.5`}
       >
         70NG
       </h2>

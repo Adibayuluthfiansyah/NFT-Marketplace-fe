@@ -62,7 +62,7 @@ function Particles() {
       let finalX = currentX * cosSwirl - currentY * sinSwirl;
       let finalY = currentX * sinSwirl + currentY * cosSwirl;
       let finalZ = currentZ;
-      
+
       if (p > 0.8) {
         const dx = finalX - mouseX;
         const dy = finalY - mouseY;
@@ -114,9 +114,10 @@ function Particles() {
         </boxGeometry>
         <meshStandardMaterial
           vertexColors={true}
-          roughness={0.2}
-          metalness={0.8}
-          emissive="#000000"
+          roughness={0.15}
+          metalness={0.9}
+          emissive="#1a0b2e"
+          emissiveIntensity={0.2}
         />
       </instancedMesh>
     </Float>
@@ -132,22 +133,21 @@ export function Hero3D() {
         gl={{ antialias: false }}
       >
         <Environment preset="warehouse" />
-        <ambientLight intensity={0.2} />
+        <ambientLight intensity={0.3} />
         <directionalLight
           position={[10, 10, 5]}
-          intensity={2}
-          color={"#ffffff"}
+          intensity={2.5}
+          color={"#7c3aed"}
           castShadow
         />
         <directionalLight
           position={[-10, -10, -5]}
-          intensity={1}
-          color={"#a855f7"}
+          intensity={1.5}
+          color={"#06b6d4"}
         />
 
         <Particles />
-        <Stars radius={100} depth={50} count={1000} factor={4} fade speed={1} />
-        <fog attach="fog" args={["#0a0a0a", 5, 30]} />
+        <fog attach="fog" args={["#0a0a0a", 8, 35]} />
       </Canvas>
     </div>
   );

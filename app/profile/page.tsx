@@ -53,7 +53,7 @@ export default function ProfilePage() {
   ];
 
   return (
-    <main className="min-h-screen bg-background-dark text-white font-display pb-12">
+    <main className="min-h-screen bg-background text-foreground pb-12">
       <Navbar />
 
       <ProfileBanner image="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=2070" />
@@ -117,11 +117,11 @@ export default function ProfilePage() {
                   transition={{ duration: 0.3, delay: 0.3 + (userNFTs.length + i) * 0.05 }}
                 >
                   <Link href="/create">
-                    <div className="bg-surface-dark border border-white/10 rounded-2xl aspect-square flex flex-col items-center justify-center text-gray-500 hover:border-primary/50 hover:text-primary transition-all cursor-pointer group">
+                    <div className="bg-card border border-border rounded-2xl aspect-square flex flex-col items-center justify-center text-muted-foreground hover:border-primary/50 hover:text-primary transition-all cursor-pointer group">
                       <motion.div 
                         whileHover={{ scale: 1.1, rotate: 90 }}
                         transition={{ duration: 0.3 }}
-                        className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-primary/10 transition-all mb-4"
+                        className="w-16 h-16 rounded-full bg-muted flex items-center justify-center group-hover:bg-primary/10 transition-all mb-4"
                       >
                         <Plus className="w-8 h-8 opacity-50 group-hover:opacity-100" />
                       </motion.div>
@@ -140,7 +140,7 @@ export default function ProfilePage() {
             >
               <Button
                 variant="outline"
-                className="rounded-full border-white/10 hover:bg-white/5 text-sm font-bold text-white px-8 py-3 h-auto"
+                className="rounded-full border-border hover:bg-muted text-sm font-bold text-foreground px-8 py-3 h-auto"
               >
                 Load More{" "}
                 <span className="text-xs opacity-50 ml-2">(12 hidden)</span>

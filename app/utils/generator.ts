@@ -23,9 +23,9 @@ export function generateLogoParticles(count: number): ParticleData {
   const dummy = new THREE.Vector3();
   const color = new THREE.Color();
 
-  // Purple gradient for brand consistency
-  const colorLeft = new THREE.Color("#5a0bb8");  // Primary dark purple
-  const colorRight = new THREE.Color("#a855f7"); // Light purple
+  // Vibrant purple to cyan gradient for modern look
+  const colorLeft = new THREE.Color("#7c3aed");  // Vibrant purple
+  const colorRight = new THREE.Color("#06b6d4"); // Bright cyan
 
 
   for (let i = 0; i < count; i++) {

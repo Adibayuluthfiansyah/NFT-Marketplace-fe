@@ -1,25 +1,55 @@
-import { X } from "lucide-react";
+"use client";
 
-export function ActiveFilters() {
+import { X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ActiveFilter } from "@/app/types/explore";
+import { cn } from "@/lib/utils";
+
+interface ActiveFiltersProps {
+  filters?: ActiveFilter[];
+  onRemoveFilter?: (filterId: string) => void;
+  onClearAll?: () => void;
+  className?: string;
+}
+
+export function ActiveFilters({
+  filters = [],
+  onRemoveFilter,
+  onClearAll,
+  className,
+}: ActiveFiltersProps) {
+  if (filters.length === 0) return null;
+
   return (
-    <div className="flex flex-wrap gap-2 mb-8">
-      <div className="flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-bold border border-primary/20">
-        <span>Art</span>
-        <button className="hover:text-red-500 flex items-center">
-          <X className="w-3 h-3" />
-        </button>
-      </div>
-      {["Gaming", "Music"].map((tag) => (
+    <div className={cn("flex flex-wrap items-center gap-2 mb-6", className)}>
+      <span className="text-sm font-medium text-muted-foreground">
+        Active filters:
+      </span>
+      
+      {filters.map((filter) => (
         <div
-          key={tag}
-          className="flex items-center gap-2 px-4 py-2 bg-surface-dark border border-white/10 rounded-full text-sm font-medium hover:border-primary/50 cursor-pointer transition-colors text-white"
+          key={filter.id}
+          className="flex items-center gap-2 pl-3 pr-2 py-1.5 bg-primary/10 text-primary rounded-full text-sm font-medium border border-primary/20"
         >
-          <span>{tag}</span>
+          <span>{filter.label}</span>
+          <button
+            onClick={() => onRemoveFilter?.(filter.id)}
+            className="hover:bg-primary/20 rounded-full p-0.5 transition-colors"
+            aria-label={`Remove ${filter.label} filter`}
+          >
+            <X className="w-3.5 h-3.5" />
+          </button>
         </div>
       ))}
-      <button className="text-primary text-sm font-bold hover:underline px-2">
-        Clear All
-      </button>
+
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={onClearAll}
+        className="text-sm text-muted-foreground hover:text-foreground h-auto py-1.5 px-2"
+      >
+        Clear all
+      </Button>
     </div>
   );
 }

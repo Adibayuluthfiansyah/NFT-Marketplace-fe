@@ -1,160 +1,182 @@
-import { Filter, ChevronDown, Search, X } from "lucide-react";
+"use client";
+
+import { X, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card } from "@/components/ui/card";
+import { FilterSection } from "./FilterSection";
+import { cn } from "@/lib/utils";
 
 interface ExploreSidebarProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
+const STATUS_OPTIONS = [
+  { label: "Buy Now", value: "buy-now" },
+  { label: "On Auction", value: "auction" },
+  { label: "New", value: "new" },
+  { label: "Has Offers", value: "offers" },
+];
+
+const CATEGORIES = ["Art", "Music", "Photography", "Virtual Worlds", "Collectibles", "Sports", "Utility"];
+
+const COLLECTIONS = [
+  { id: "1", name: "Bored Ape YC" },
+  { id: "2", name: "Azuki" },
+  { id: "3", name: "Doodles" },
+];
+
+const ARTISTS = ["Beeple", "Pak", "XCOPY", "Fewocious"];
+
 export function ExploreSidebar({ isOpen, onClose }: ExploreSidebarProps) {
   return (
-    <aside
-      className={`
-      lg:flex flex-col w-full lg:w-80 lg:h-[calc(100vh-80px)] lg:sticky lg:top-20
-      overflow-y-auto border-r border-white/10 bg-background-dark p-6 gap-6
-      ${isOpen ? "flex fixed inset-0 z-50 bg-background-dark" : "hidden"}
-    `}
-    >
-      {/* Mobile Header */}
-      <div className="lg:hidden flex items-center justify-between mb-4">
-        <h3 className="text-xl font-bold text-white">Filters</h3>
-        <Button variant="ghost" size="icon" onClick={onClose} className="text-white">
-          <X className="w-6 h-6" />
-        </Button>
-      </div>
+    <>
+      {/* Mobile Overlay */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 lg:hidden"
+          onClick={onClose}
+        />
+      )}
 
-      <div className="flex items-center justify-between">
-        <h3 className="text-xl font-bold flex items-center gap-2 text-white">
-          <Filter className="w-5 h-5" /> Filters
-        </h3>
-        <Button variant="link" className="text-sm text-primary font-bold p-0 h-auto">
-          Reset
-        </Button>
-      </div>
-
-      {/* Filter: Status */}
-      <div className="border-b border-white/10 pb-6">
-        <button className="flex items-center justify-between w-full font-bold mb-4 text-white">
-          <span>Status</span>
-          <ChevronDown className="w-5 h-5" />
-        </button>
-        <div className="grid grid-cols-2 gap-2">
-          <Button className="bg-primary hover:bg-primary/90 text-white text-sm font-bold">
-            Buy Now
-          </Button>
-          <Button variant="outline" className="bg-surface-dark border-white/10 hover:border-primary/50 text-white text-sm font-medium">
-            On Auction
-          </Button>
-        </div>
-      </div>
-
-      {/* Filter: Price Range */}
-      <div className="border-b border-white/10 pb-6">
-        <button className="flex items-center justify-between w-full font-bold mb-4 text-white">
-          <span>Price Range</span>
-          <ChevronDown className="w-5 h-5" />
-        </button>
-        <div className="flex items-center gap-3 mb-3">
-          <Input
-            className="flex-1 bg-transparent rounded-lg border-white/10 text-sm text-white focus:border-primary"
-            placeholder="Min"
-            type="number"
-          />
-          <span className="text-gray-400">to</span>
-          <Input
-            className="flex-1 bg-transparent rounded-lg border-white/10 text-sm text-white focus:border-primary"
-            placeholder="Max"
-            type="number"
-          />
-        </div>
-        <Button variant="outline" className="w-full bg-surface-dark border-white/10 hover:bg-primary hover:text-white hover:border-primary text-sm font-bold">
-          Apply
-        </Button>
-      </div>
-
-      {/* Filter: Categories */}
-      <div className="border-b border-white/10 pb-6">
-        <button className="flex items-center justify-between w-full font-bold mb-4 text-white">
-          <span>Categories</span>
-          <ChevronDown className="w-5 h-5" />
-        </button>
-        <div className="flex flex-col gap-2 max-h-40 overflow-y-auto pr-2 custom-scrollbar">
-          {[
-            "Art",
-            "Music",
-            "Photography",
-            "Virtual Worlds",
-            "Collectibles",
-          ].map((cat, i) => (
-            <label
-              key={cat}
-              className="flex items-center gap-3 cursor-pointer group"
+      {/* Sidebar */}
+      <aside
+        className={cn(
+          "fixed lg:sticky top-0 left-0 h-screen lg:h-[calc(100vh-80px)] lg:top-20",
+          "w-80 bg-card border-r border-border",
+          "overflow-y-auto transition-transform duration-300 z-50",
+          "flex flex-col",
+          isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+        )}
+      >
+        {/* Header */}
+        <div className="sticky top-0 bg-card border-b border-border p-6 flex items-center justify-between">
+          <h3 className="text-lg font-semibold text-foreground">Filters</h3>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-sm text-primary hover:text-primary/80"
             >
-              <input
-                defaultChecked={i === 0}
-                className="rounded border-white/20 text-primary focus:ring-0 bg-transparent"
-                type="checkbox"
-              />
-              <span className="text-sm font-medium text-gray-400 group-hover:text-primary transition-colors">
-                {cat}
-              </span>
-            </label>
-          ))}
-        </div>
-      </div>
-
-      {/* Filter: Collections */}
-      <div className="border-b border-white/10 pb-6">
-        <button className="flex items-center justify-between w-full font-bold mb-4 text-white">
-          <span>Collections</span>
-          <ChevronDown className="w-5 h-5" />
-        </button>
-        <div className="relative mb-3">
-          <Search className="absolute left-3 top-2.5 text-gray-400 text-sm w-4 h-4" />
-          <input
-            className="w-full bg-surface-dark rounded-lg border border-white/10 pl-9 pr-3 py-2 text-sm text-white focus:border-primary focus:ring-0 outline-none"
-            placeholder="Filter collections"
-            type="text"
-          />
-        </div>
-        <div className="flex flex-col gap-2">
-          {["Bored Ape YC", "Azuki", "Doodles"].map((col) => (
-            <div
-              key={col}
-              className="flex items-center gap-3 p-2 hover:bg-white/5 rounded-lg cursor-pointer transition-colors text-white"
+              Clear all
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onClose}
+              className="lg:hidden"
             >
-              <div className="size-6 rounded-full bg-gray-700"></div>
-              <span className="text-sm font-medium">{col}</span>
+              <X className="w-5 h-5" />
+            </Button>
+          </div>
+        </div>
+
+        {/* Filters Content */}
+        <div className="flex-1 p-6 space-y-6">
+          {/* Status Filter */}
+          <FilterSection title="Status">
+            <div className="grid grid-cols-2 gap-2">
+              {STATUS_OPTIONS.map((option) => (
+                <Button
+                  key={option.value}
+                  variant="outline"
+                  size="sm"
+                  className="justify-start text-sm font-medium border-border hover:border-primary hover:text-primary hover:bg-primary/5"
+                >
+                  {option.label}
+                </Button>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
+          </FilterSection>
 
-      {/* Filter: Artists */}
-      <div>
-        <button className="flex items-center justify-between w-full font-bold mb-4 text-white">
-          <span>Artists</span>
-          <ChevronDown className="w-5 h-5" />
-        </button>
-        <div className="flex flex-col gap-2">
-          {["Beeple", "Pak", "XCOPY"].map((artist) => (
-            <label
-              key={artist}
-              className="flex items-center gap-3 cursor-pointer group"
-            >
-              <input
-                className="rounded border-white/20 text-primary focus:ring-0 bg-transparent"
-                type="checkbox"
+          {/* Price Range Filter */}
+          <FilterSection title="Price Range">
+            <div className="flex items-center gap-2">
+              <Input
+                type="number"
+                placeholder="Min"
+                className="flex-1 bg-background border-border focus:border-primary"
               />
-              <span className="text-sm font-medium text-gray-400 group-hover:text-primary transition-colors">
-                {artist}
-              </span>
-            </label>
-          ))}
+              <span className="text-muted-foreground">to</span>
+              <Input
+                type="number"
+                placeholder="Max"
+                className="flex-1 bg-background border-border focus:border-primary"
+              />
+            </div>
+            <Button
+              size="sm"
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+            >
+              Apply
+            </Button>
+          </FilterSection>
+
+          {/* Categories Filter */}
+          <FilterSection title="Categories">
+            <div className="space-y-2 max-h-48 overflow-y-auto">
+              {CATEGORIES.map((category) => (
+                <label
+                  key={category}
+                  className="flex items-center gap-3 cursor-pointer group"
+                >
+                  <input
+                    type="checkbox"
+                    className="w-4 h-4 rounded border-border text-primary focus:ring-primary focus:ring-offset-0"
+                  />
+                  <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
+                    {category}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </FilterSection>
+
+          {/* Collections Filter */}
+          <FilterSection title="Collections">
+            <div className="relative mb-3">
+              <Search className="absolute left-3 top-2.5 w-4 h-4 text-muted-foreground" />
+              <Input
+                placeholder="Search collections"
+                className="pl-9 bg-background border-border focus:border-primary"
+              />
+            </div>
+            <div className="space-y-1">
+              {COLLECTIONS.map((collection) => (
+                <div
+                  key={collection.id}
+                  className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted cursor-pointer transition-colors"
+                >
+                  <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-xs font-semibold text-muted-foreground">
+                    {collection.name.charAt(0)}
+                  </div>
+                  <span className="text-sm text-foreground">{collection.name}</span>
+                </div>
+              ))}
+            </div>
+          </FilterSection>
+
+          {/* Artists Filter */}
+          <FilterSection title="Artists" className="border-b-0">
+            <div className="space-y-2">
+              {ARTISTS.map((artist) => (
+                <label
+                  key={artist}
+                  className="flex items-center gap-3 cursor-pointer group"
+                >
+                  <input
+                    type="checkbox"
+                    className="w-4 h-4 rounded border-border text-primary focus:ring-primary focus:ring-offset-0"
+                  />
+                  <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
+                    {artist}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </FilterSection>
         </div>
-      </div>
-    </aside>
+      </aside>
+    </>
   );
 }

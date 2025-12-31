@@ -7,7 +7,7 @@ export function NavLinks() {
   const links = [
     { name: "Explore", href: "/explore" },
     { name: "Stats", href: "/stats" },
-    { name: "Resources", href: "/resources-page" },
+    { name: "Resources", href: "/resources" },
     { name: "Create", href: "/create" },
   ];
 
@@ -20,7 +20,7 @@ export function NavLinks() {
             key={link.name}
             href={link.href}
             className={`text-sm font-bold transition-colors ${
-              isActive ? "text-primary" : "text-gray-300 hover:text-white"
+              isActive ? "text-primary" : "text-muted-foreground hover:text-foreground"
             }`}
           >
             {link.name}

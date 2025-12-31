@@ -41,10 +41,10 @@ export default function NFTDetailPage({
   ];
 
   return (
-    <main className="min-h-screen bg-background-dark text-white font-display pb-12">
+    <main className="min-h-screen bg-background text-foreground pb-12">
       <Navbar />
 
-      <div className="max-w-400 mx-auto px-4 sm:px-6 lg:px-10 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-8">
         {/* Breadcrumbs with Shadcn */}
         <motion.div 
           initial={{ opacity: 0, y: -10 }}
@@ -55,19 +55,19 @@ export default function NFTDetailPage({
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink href="/" className="text-gray-400 hover:text-primary">
+                <BreadcrumbLink href="/" className="text-muted-foreground hover:text-primary">
                   Home
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbLink href="/explore" className="text-gray-400 hover:text-primary">
+                <BreadcrumbLink href="/explore" className="text-muted-foreground hover:text-primary">
                   Collections
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage className="text-white font-medium">Azuki</BreadcrumbPage>
+                <BreadcrumbPage className="text-foreground font-medium">Azuki</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -85,17 +85,17 @@ export default function NFTDetailPage({
 
             {/* Tabs for Details, Properties, Price History, Offers */}
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="w-full grid grid-cols-3 bg-surface-dark/50 border border-white/10 p-1 rounded-xl">
+              <TabsList className="w-full grid grid-cols-3 bg-card border border-border p-1 rounded-xl">
                 <TabsTrigger 
                   value="details" 
-                  className="rounded-lg data-[state=active]:bg-primary data-[state=active]:text-white"
+                  className="rounded-lg data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
                 >
                   <FileText className="w-4 h-4 mr-2" />
                   Details
                 </TabsTrigger>
                 <TabsTrigger 
                   value="price-history" 
-                  className="rounded-lg data-[state=active]:bg-primary data-[state=active]:text-white"
+                  className="rounded-lg data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
                 >
                   <TrendingUp className="w-4 h-4 mr-2" />
                   History
@@ -115,14 +115,14 @@ export default function NFTDetailPage({
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4 }}
                 >
-                  <Card className="bg-surface-dark/50 border-white/10">
-                    <CardHeader className="px-5 py-4 border-b border-white/10 bg-white/5">
+                  <Card className="bg-card border-border">
+                    <CardHeader className="px-5 py-4 border-b border-border bg-muted/50">
                       <div className="flex items-center gap-3">
-                        <FileText className="w-5 h-5 text-gray-400" />
-                        <h3 className="font-bold text-lg text-white">Description</h3>
+                        <FileText className="w-5 h-5 text-muted-foreground" />
+                        <h3 className="font-bold text-lg text-foreground">Description</h3>
                       </div>
                     </CardHeader>
-                    <CardContent className="p-5 text-gray-300 leading-relaxed text-sm">
+                    <CardContent className="p-5 text-muted-foreground leading-relaxed text-sm">
                       <p>
                         Azuki starts with a collection of 10,000 avatars that give you
                         membership access to The Garden.
@@ -140,11 +140,11 @@ export default function NFTDetailPage({
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4 }}
                 >
-                  <Card className="bg-surface-dark/50 border-white/10">
-                    <CardHeader className="px-5 py-4 border-b border-white/10 bg-white/5">
+                  <Card className="bg-card border-border">
+                    <CardHeader className="px-5 py-4 border-b border-border bg-muted/50">
                       <div className="flex items-center gap-3">
-                        <TrendingUp className="w-5 h-5 text-gray-400" />
-                        <h3 className="font-bold text-lg text-white">Price History</h3>
+                        <TrendingUp className="w-5 h-5 text-muted-foreground" />
+                        <h3 className="font-bold text-lg text-foreground">Price History</h3>
                       </div>
                     </CardHeader>
                     <CardContent className="p-5">
@@ -155,10 +155,10 @@ export default function NFTDetailPage({
                           { date: "2023-11-10", price: "2.8 ETH", event: "Sale" },
                           { date: "2023-10-05", price: "2.5 ETH", event: "Mint" },
                         ].map((item, i) => (
-                          <div key={i} className="flex items-center justify-between py-3 border-b border-white/5 last:border-0">
+                          <div key={i} className="flex items-center justify-between py-3 border-b border-border/50 last:border-0">
                             <div>
-                              <p className="text-white font-medium">{item.event}</p>
-                              <p className="text-gray-400 text-xs">{item.date}</p>
+                              <p className="text-foreground font-medium">{item.event}</p>
+                              <p className="text-muted-foreground text-xs">{item.date}</p>
                             </div>
                             <p className="text-primary font-bold">{item.price}</p>
                           </div>
@@ -175,11 +175,11 @@ export default function NFTDetailPage({
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4 }}
                 >
-                  <Card className="bg-surface-dark/50 border-white/10">
-                    <CardHeader className="px-5 py-4 border-b border-white/10 bg-white/5">
+                  <Card className="bg-card border-border">
+                    <CardHeader className="px-5 py-4 border-b border-border bg-muted/50">
                       <div className="flex items-center gap-3">
-                        <Tag className="w-5 h-5 text-gray-400" />
-                        <h3 className="font-bold text-lg text-white">Active Offers</h3>
+                        <Tag className="w-5 h-5 text-muted-foreground" />
+                        <h3 className="font-bold text-lg text-foreground">Active Offers</h3>
                       </div>
                     </CardHeader>
                     <CardContent className="p-5">
@@ -189,12 +189,12 @@ export default function NFTDetailPage({
                           { from: "0xabcd...ef01", price: "3.7 ETH", expires: "5 days" },
                           { from: "0x9876...5432", price: "3.5 ETH", expires: "1 week" },
                         ].map((offer, i) => (
-                          <div key={i} className="flex items-center justify-between py-3 border-b border-white/5 last:border-0">
+                          <div key={i} className="flex items-center justify-between py-3 border-b border-border/50 last:border-0">
                             <div>
-                              <p className="text-white font-medium">{offer.price}</p>
-                              <p className="text-gray-400 text-xs">From {offer.from}</p>
+                              <p className="text-foreground font-medium">{offer.price}</p>
+                              <p className="text-muted-foreground text-xs">From {offer.from}</p>
                             </div>
-                            <p className="text-gray-400 text-xs">Expires in {offer.expires}</p>
+                            <p className="text-muted-foreground text-xs">Expires in {offer.expires}</p>
                           </div>
                         ))}
                       </div>
