@@ -1,5 +1,3 @@
-// Type definitions for Wallet page
-
 import { LucideIcon } from "lucide-react";
 
 export interface Transaction {
@@ -35,4 +33,17 @@ export interface QuickAction {
   icon: LucideIcon;
   variant: "primary" | "secondary";
   onClick: () => void;
+}
+
+// for nft storage 
+export interface NFTMetadata {
+  name: string;
+  description: string;
+  image: File; 
+  attributes?: NFTAttribute[];
+}
+
+export interface NFTAttribute {
+  trait_type: string;
+  value: string | number;
 }

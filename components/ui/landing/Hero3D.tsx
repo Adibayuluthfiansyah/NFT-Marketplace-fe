@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Environment, Float, Stars } from "@react-three/drei";
+import { Environment, Float } from "@react-three/drei";
 import { useRef, useEffect, useMemo } from "react";
 import * as THREE from "three";
 import { easing } from "maath";
@@ -20,8 +20,6 @@ function Particles() {
   const progress = useRef(0);
   const dummy = useMemo(() => new THREE.Object3D(), []); // Reuse dummy object
 
-  const { viewport, mouse } = useThree();
-
   const particleData = useMemo(() => generateLogoParticles(PARTICLE_COUNT), []);
   const { chaosPositions, targetPositions, colors } = particleData;
 
@@ -39,8 +37,14 @@ function Particles() {
 
     easing.damp(progress, "current", 1, 1.2, delta);
     const p = progress.current;
-    const mouseX = (mouse.x * viewport.width) / 2;
-    const mouseY = (mouse.y * viewport.height) / 2;
+    const time = state.clock.elapsedTime;
+
+    // Continuous smooth rotation (inspired by Uphold)
+    meshRef.current.rotation.y = time * 0.08;
+    meshRef.current.rotation.x = Math.sin(time * 0.05) * 0.05;
+
+    // Breathing/wave effect for the whole mesh
+    const breathingScale = 1 + Math.sin(time * 0.6) * 0.03;
 
     for (let i = 0; i < PARTICLE_COUNT; i++) {
       const i3 = i * 3;
@@ -63,41 +67,33 @@ function Particles() {
       let finalY = currentX * sinSwirl + currentY * cosSwirl;
       let finalZ = currentZ;
 
-      if (p > 0.8) {
-        const dx = finalX - mouseX;
-        const dy = finalY - mouseY;
-        const distSq = dx * dx + dy * dy; // Use squared distance to avoid sqrt
-
-        // mouse effect radius squared
-        const mouseRadiusSq = 2.25; // 1.5 * 1.5
-
-        if (distSq < mouseRadiusSq) {
-          const dist = Math.sqrt(distSq); // Only calculate sqrt when needed
-          const force = (1.5 - dist) / 1.5;
-          const repulsionStrength = 2 * force;
-          const angle = Math.atan2(dy, dx);
-          finalX += Math.cos(angle) * repulsionStrength;
-          finalY += Math.sin(angle) * repulsionStrength;
-          finalZ -= repulsionStrength * 2;
-          dummy.rotation.set(force * 5, force * 5, force * 5);
-        } else {
-          dummy.rotation.set(0, 0, 0);
-        }
+      // Wave motion - different particles move at different phases (Decentraland style)
+      if (p > 0.95) {
+        const waveOffset = i * 0.01;
+        finalX += Math.sin(time * 0.8 + waveOffset) * 0.08;
+        finalY += Math.cos(time * 0.6 + waveOffset) * 0.08;
+        finalZ += Math.sin(time * 0.5 + waveOffset) * 0.05;
       }
 
       dummy.position.set(finalX, finalY, finalZ);
-      const scale = 0.12;
-      dummy.scale.set(scale, scale, scale);
+
+      // Individual particle rotation for depth effect
+      const rotationSpeed = 0.5 + (i % 100) * 0.01;
+      dummy.rotation.set(
+        time * rotationSpeed * 0.2,
+        time * rotationSpeed * 0.3,
+        time * rotationSpeed * 0.1
+      );
+
+      // Breathing scale with slight variation per particle
+      const particleScale = 0.12 * breathingScale * (1 + Math.sin(time + i * 0.1) * 0.05);
+      dummy.scale.set(particleScale, particleScale, particleScale);
 
       dummy.updateMatrix();
       meshRef.current.setMatrixAt(i, dummy.matrix);
     }
 
     meshRef.current.instanceMatrix.needsUpdate = true;
-    if (meshRef.current && p > 0.5) {
-      meshRef.current.rotation.y =
-        Math.sin(state.clock.elapsedTime * 0.1) * 0.1;
-    }
   });
 
   return (
@@ -116,11 +112,59 @@ function Particles() {
           vertexColors={true}
           roughness={0.15}
           metalness={0.9}
-          emissive="#1a0b2e"
-          emissiveIntensity={0.2}
+          emissive="#7c3aed"
+          emissiveIntensity={0.3}
         />
       </instancedMesh>
     </Float>
+  );
+}
+
+// Ambient floating particles (Decentraland-style atmosphere)
+function AmbientParticles() {
+  const meshRef = useRef<THREE.InstancedMesh>(null);
+  const dummy = useMemo(() => new THREE.Object3D(), []);
+  const count = 80;
+
+  const positions = useMemo(() => {
+    const pos = [];
+    for (let i = 0; i < count; i++) {
+      pos.push({
+        x: (Math.random() - 0.5) * 25,
+        y: (Math.random() - 0.5) * 25,
+        z: (Math.random() - 0.5) * 15 - 5,
+        speed: 0.1 + Math.random() * 0.2,
+        radius: 0.15 + Math.random() * 0.3,
+      });
+    }
+    return pos;
+  }, []);
+
+  useFrame((state) => {
+    if (!meshRef.current) return;
+    const time = state.clock.elapsedTime;
+
+    positions.forEach((pos, i) => {
+      const t = time * pos.speed;
+      const x = pos.x + Math.sin(t) * 2;
+      const y = pos.y + Math.cos(t * 0.7) * 2;
+      const z = pos.z + Math.sin(t * 0.5) * 1;
+
+      dummy.position.set(x, y, z);
+      dummy.rotation.set(t * 0.5, t * 0.3, 0);
+      dummy.scale.setScalar(pos.radius * (1 + Math.sin(t * 2) * 0.2));
+      dummy.updateMatrix();
+      meshRef.current!.setMatrixAt(i, dummy.matrix);
+    });
+
+    meshRef.current.instanceMatrix.needsUpdate = true;
+  });
+
+  return (
+    <instancedMesh ref={meshRef} args={[undefined, undefined, count]}>
+      <sphereGeometry args={[0.15, 8, 8]} />
+      <meshBasicMaterial color="#7c3aed" transparent opacity={0.15} />
+    </instancedMesh>
   );
 }
 
@@ -147,6 +191,7 @@ export function Hero3D() {
         />
 
         <Particles />
+        <AmbientParticles />
         <fog attach="fog" args={["#0a0a0a", 8, 35]} />
       </Canvas>
     </div>

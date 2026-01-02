@@ -1,5 +1,3 @@
-// Type definitions for Create NFT page
-
 export interface NFTFormData {
   name: string;
   externalLink?: string;

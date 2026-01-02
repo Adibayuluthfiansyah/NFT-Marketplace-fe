@@ -20,7 +20,7 @@ export interface CategoryData {
   name: string;
   value: number;
   color: string;
-  [key: string]: string | number; // Index signature for Recharts compatibility
+  [key: string]: string | number; 
 }
 
 export interface CollectionRanking {

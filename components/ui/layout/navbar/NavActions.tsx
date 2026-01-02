@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Wallet } from "lucide-react";
 import { ProfileDropdown } from "./ProfileDropdown";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 export function NavActions() {
   const handleDisconnect = () => {
@@ -18,9 +19,14 @@ export function NavActions() {
       </Link>
 
       {/* Connect Wallet Button */}
-      <button className="hidden sm:flex items-center justify-center rounded-full h-10 px-6 bg-primary hover:bg-primary/90 text-primary-foreground text-sm font-bold transition-all shadow-lg shadow-primary/25 active:scale-95">
+      {/* <button className="hidden sm:flex items-center justify-center rounded-full h-10 px-6 bg-primary hover:bg-primary/90 text-primary-foreground text-sm font-bold transition-all shadow-lg shadow-primary/25 active:scale-95">
         Connect Wallet
-      </button>
+      </button> */}
+      <ConnectButton
+        showBalance={false}
+        chainStatus="none"
+        accountStatus="address"
+      />
 
       {/* Profile Dropdown */}
       <ProfileDropdown

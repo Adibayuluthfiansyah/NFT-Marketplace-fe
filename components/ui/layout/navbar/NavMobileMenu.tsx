@@ -20,7 +20,7 @@ export function NavMobileMenu() {
 
   return (
     <>
-      {/* Hamburger Button (Mobile Only) */}
+      {/* Hamburger Button  */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="md:hidden flex items-center justify-center size-10 rounded-lg bg-card border border-border text-muted-foreground hover:text-foreground hover:border-border/30 transition-colors"

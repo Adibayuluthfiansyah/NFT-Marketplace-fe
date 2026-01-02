@@ -4,18 +4,9 @@ import dynamic from "next/dynamic";
 import { Suspense } from "react";
 import Link from "next/link";
 import { motion, Variants } from "framer-motion";
-import {
-  ArrowRight,
-  Sparkles,
-  Rocket,
-  Zap,
-  Globe,
-  ShieldCheck,
-} from "lucide-react";
+import { ArrowRight, Zap, Globe, ShieldCheck } from "lucide-react";
 
 import { Navbar } from "@/components/ui/layout/Navbar";
-import { StatCard } from "@/components/ui/landing/StatCard";
-import { SectionHeader } from "@/components/ui/landing/SectionHeader";
 import { UniversalNFTCard, UniversalNFTData } from "@/components/ui/common";
 import StarBackground from "@/components/ui/landing/StarBackground";
 import {
@@ -106,7 +97,7 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-background text-foreground font-sans antialiased overflow-x-hidden selection:bg-primary/20 selection:text-primary-foreground">
       {/* BACKGROUND */}
-      <div className="fixed inset-0 z-0 pointer-events-none opacity-40">
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-70">
         <StarBackground />
       </div>
 
@@ -114,15 +105,15 @@ export default function LandingPage() {
 
       {/* HERO SECTION  */}
       <section className="relative w-full min-h-[100dvh] flex items-center justify-center overflow-hidden px-6 py-24">
-        {/* Layer 3D dengan opacity rendah agar tidak mengganggu teks */}
-        <div className="absolute inset-0 z-10 opacity-90 mix-blend-lighten">
+        {/* Layer 3D lebih terang */}
+        <div className="absolute inset-0 z-10 opacity-100 mix-blend-screen">
           <Suspense fallback={null}>
             <Hero3D />
           </Suspense>
         </div>
 
-        {/* Gradient Overlay  */}
-        <div className="absolute inset-0 z-10 bg-gradient-to-b from-background/30 via-background/60 to-background pointer-events-none" />
+        {/* Gradient Overlay lebih subtle */}
+        <div className="absolute inset-0 z-10 bg-gradient-to-b from-background/20 via-background/40 to-background pointer-events-none" />
 
         {/* Content */}
         <div className="relative z-20 text-center max-w-6xl mx-auto flex flex-col items-center gap-8">
@@ -135,19 +126,19 @@ export default function LandingPage() {
             {/* Main Title */}
             <motion.h1
               variants={itemVar}
-              className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[1.1] tracking-tight mb-6 text-foreground"
+              className="text-5xl md:text-6xl lg:text-8xl font-black leading-[0.95] tracking-tight mb-8 text-foreground uppercase"
             >
-              Discover, Collect, and Sell
+              Discover Collect
               <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
-                Extraordinary NFTs
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-500 to-secondary">
+                and Sell NFTs
               </span>
             </motion.h1>
 
             {/* Subtitle */}
             <motion.p
               variants={itemVar}
-              className="text-base md:text-lg text-muted-foreground max-w-2xl leading-relaxed mb-8"
+              className="text-base md:text-lg text-muted-foreground max-w-xl leading-relaxed mb-8"
             >
               The worlds first and largest digital marketplace for crypto
               collectibles and non-fungible tokens. Buy, sell, and discover

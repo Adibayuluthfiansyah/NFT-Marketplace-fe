@@ -47,7 +47,7 @@ const StarFieldMaterial = {
         gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
         float pulse = 1.0 + 0.2 * sin(time * 2.0 + shift);
         gl_PointSize = scale * pulse * 70.0 * (10.0 / gl_Position.w); 
-        vAlpha = 0.5 + 0.5 * sin(time * 1.5 + shift); 
+        vAlpha = 0.7 + 0.3 * sin(time * 1.5 + shift); 
     }
     `,
   fragmentShader: `
@@ -61,7 +61,7 @@ const StarFieldMaterial = {
     `,
 };
 
-function StarField({ count = 800 }: { count?: number }) {
+function StarField({ count = 2000 }: { count?: number }) {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const meshRef = useRef<THREE.Points>(null);
@@ -139,7 +139,7 @@ export default function StarBackground() {
         camera={{ position: [0, 0, 10], fov: 45 }}
         gl={{ antialias: false }}
       >
-        <StarField count={1500} />
+        <StarField count={3000} />
       </Canvas>
     </div>
   );

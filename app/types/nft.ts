@@ -1,5 +1,3 @@
-// Type definitions for NFT Detail page
-
 export interface NFTTrait {
   label: string;
   val: string;
