@@ -1,6 +1,12 @@
 "use client";
-
-import { useState } from "react";
+import { Card } from "@/components/ui/card";
+import { Loader2, X } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import { Navbar } from "@/components/ui/layout/Navbar";
 import { FileUpload } from "@/components/ui/create/FileUpload";
 import { CreateFormFields } from "@/components/ui/create/CreateFormFields";
@@ -8,81 +14,213 @@ import { AttributeSections } from "@/components/ui/create/AttributeSections";
 import { NFTPreview } from "@/components/ui/create/NFTPreview";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Info, List, Star, BarChart3 } from "lucide-react";
-import { NFTFormData, AttributeSection, CollectionOption } from "@/app/types/create";
+import {
+  NFTFormData,
+  AttributeSection,
+  CollectionOption,
+} from "@/app/types/create";
+import {
+  useWaitForTransactionReceipt,
+  useWriteContract,
+  useAccount,
+} from "wagmi";
+import { NFT_COLLECTION_ABI, NFT_ADDRESS } from "../constant";
+import { NFTAttribute, NFTMetadata } from "../types/wallet";
+import { uploadNFTToIPFS } from "@/lib/nftStorage";
+
+// Helper function to detect media type from file
+const getMediaType = (file: File): string => {
+  if (file.type.startsWith('image/')) return 'image';
+  if (file.type.startsWith('video/')) return 'video';
+  if (file.type.startsWith('audio/')) return 'audio';
+  return 'image'; // default fallback
+};
+
+//validation use zod
+const formSchema = z.object({
+  name: z.string().min(3, "Name must be at least 3 characters"),
+  description: z.string().min(10, "Description must be at least 10 characters"),
+  price: z.string().regex(/^\d+(\.\d{1,18})?$/, "Price must be a valid number"),
+  image: z.instanceof(File, {
+    message: "Image must be uploaded",
+  }),
+  externalLink: z.string().optional(),
+  collection: z.string().optional(),
+  category: z.string().optional(),
+  supply: z.number().min(1).optional(),
+  blockchain: z.string().optional(),
+});
+
+type FormValues = z.infer<typeof formSchema>;
 
 export default function CreateNFTPage() {
-  const [formData, setFormData] = useState<Partial<NFTFormData>>({
-    name: "",
-    externalLink: "",
-    description: "",
-    collection: "",
-    category: "Art",
-    supply: 1,
-    blockchain: "ethereum",
-  });
-
+  const router = useRouter();
+  const { address, isConnected } = useAccount();
+  const [isUploading, setIsUploading] = useState(false);
+  const [attributes, setAttributes] = useState<NFTAttribute[]>([]);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-  const handleFileChange = (file: File | null) => {
-    if (file) {
-      const url = URL.createObjectURL(file);
-      setImagePreview(url);
-      setFormData((prev) => ({ ...prev, file }));
-    } else {
-      setImagePreview(null);
-      setFormData((prev) => ({ ...prev, file: undefined }));
-    }
-  };
+  // Cleanup blob URL on unmount or when preview changes
+  useEffect(() => {
+    return () => {
+      if (imagePreview) {
+        URL.revokeObjectURL(imagePreview);
+      }
+    };
+  }, [imagePreview]);
 
-  const handleInputChange = (field: keyof NFTFormData, value: string | number) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
+  // hook write contract minting NFT
+  const {
+    data: hash,
+    writeContract,
+    isPending: isMinting,
+    error: mintError,
+  } = useWriteContract();
 
-  const handleCategorySelect = (category: string) => {
-    setFormData((prev) => ({ ...prev, category }));
-  };
+  // hook wait for transaction receipt
+  const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
+    hash,
+  });
 
-  const handleAttributeAdd = (type: AttributeSection["type"]) => {
-    // TODO: Open modal to add attribute
-    console.log("Add attribute:", type);
-  };
+  // form hooks
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      description: "",
+      price: "",
+      externalLink: "",
+      collection: "",
+      category: "Art",
+      supply: 1,
+      blockchain: "ethereum",
+    },
+  });
+  const watchAllFields = form.watch();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // TODO: Implement minting logic
-    console.log("Form data:", formData);
-  };
-
-  const collections: CollectionOption[] = [
-    { id: "1", name: "My Collection 1" },
-    { id: "2", name: "My Collection 2" },
-  ];
-
-  const categories = ["Art", "Collectibles", "Music", "Photography", "Sports"];
-
+  //  (Attributes & Collections)
   const attributeSections: AttributeSection[] = [
     {
       id: "1",
       title: "Properties",
-      description: "Textual traits that show up as rectangles",
+      description: "Textual traits (e.g. Color)",
       icon: List,
       type: "properties",
     },
     {
       id: "2",
       title: "Levels",
-      description: "Numerical traits that show as a progress bar",
+      description: "Numerical traits (e.g. Speed)",
       icon: Star,
       type: "levels",
     },
     {
       id: "3",
       title: "Stats",
-      description: "Numerical traits that just show as numbers",
+      description: "Numerical stats (e.g. Power)",
       icon: BarChart3,
       type: "stats",
     },
   ];
+
+  const collections: CollectionOption[] = [
+    { id: "1", name: "Genesis Collection" },
+    { id: "2", name: "Special Drops" },
+  ];
+
+  const categories = ["Art", "Collectibles", "Music", "Photography", "Sports"];
+
+  //  temporary handlers
+  const handleAttributeAdd = (type: AttributeSection["type"]) => {
+    const traitType = window.prompt(`Enter ${type} name (e.g. Color):`);
+    if (!traitType) return;
+
+    const value = window.prompt(`Enter ${type} value (e.g. Blue):`);
+    if (!value) return;
+
+    setAttributes((prev) => [...prev, { trait_type: traitType, value: value }]);
+  };
+
+  const handleAttributeRemove = (index: number) => {
+    setAttributes((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  // submit form
+  const onSubmit = async (data: FormValues) => {
+    if (!isConnected) {
+      toast.error("Connect your wallet first");
+      return;
+    }
+    try {
+      setIsUploading(true);
+      toast.loading("Uploading NFT to IPFS...");
+      // upload to IPFS
+      const metadata: NFTMetadata = {
+        name: data.name,
+        description: data.description,
+        image: data.image,
+        attributes: attributes,
+      };
+      const ipfsResult = await uploadNFTToIPFS(metadata);
+      console.log("IPFS URL:", ipfsResult.url);
+      setIsUploading(false);
+      toast.dismiss();
+      toast.success("NFT uploaded to IPFS successfully!");
+      toast.loading("Waiting Wallet Confirmation...");
+
+      // Detect media type from file
+      const mediaType = getMediaType(data.image);
+
+      // minting NFT
+      writeContract({
+        address: NFT_ADDRESS,
+        abi: NFT_COLLECTION_ABI,
+        functionName: "createToken",
+        args: [ipfsResult.url, mediaType],
+      });
+    } catch (error: unknown) {
+      setIsUploading(false);
+      console.error("Error creating NFT:", error);
+      toast.dismiss();
+
+      // Better error handling with specific messages
+      const errorMessage = error instanceof Error ? error.message : '';
+      
+      if (errorMessage.includes('NFT Storage') || errorMessage.includes('ipfs')) {
+        toast.error("Failed to upload to IPFS. Check your API key.");
+      } else if (errorMessage.includes('User rejected') || errorMessage.includes('user rejected')) {
+        toast.error("Transaction cancelled by user.");
+      } else if (errorMessage.includes('insufficient funds')) {
+        toast.error("Insufficient ETH for gas fees.");
+      } else if (errorMessage.includes('Ownable') || errorMessage.includes('caller is not the owner')) {
+        toast.error("Only authorized users can mint NFTs.");
+      } else {
+        toast.error(`Failed to create NFT: ${errorMessage.slice(0, 100)}`);
+      }
+    }
+  };
+  // success minting
+  useEffect(() => {
+    if (isSuccess) {
+      toast.dismiss();
+      toast.success("NFT Minted Successfully! 🎉");
+      setTimeout(() => router.push("/profile"), 2000);
+    }
+    if (mintError) {
+      toast.dismiss();
+      toast.error(`Minting failed: ${mintError.message}`);
+    }
+  }, [isSuccess, mintError, router]);
+
+  // loading stats teks
+  const getButtonText = () => {
+    if (isUploading) return "Uploading to IPFS...";
+    if (isMinting) return "Confirming in Wallet...";
+    if (isConfirming) return "Minting on Blockchain...";
+    return "Create Item";
+  };
+
+  const isButtonDisabled = isUploading || isMinting || isConfirming;
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
@@ -105,22 +243,56 @@ export default function CreateNFTPage() {
                 </div>
 
                 {/* Form */}
-                <form onSubmit={handleSubmit} className="space-y-8">
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-8"
+                >
+                  {/* Wallet Connection Warning */}
+                  {!isConnected && (
+                    <Card className="p-4 bg-yellow-500/10 border-yellow-500/20">
+                      <p className="text-sm text-yellow-600 dark:text-yellow-400 flex items-center gap-2">
+                        <Info className="w-4 h-4" />
+                        Please connect your wallet to create NFTs
+                      </p>
+                    </Card>
+                  )}
+
                   {/* File Upload */}
-                  <FileUpload
-                    onFileChange={handleFileChange}
-                    preview={imagePreview}
-                  />
+                  <fieldset disabled={isButtonDisabled}>
+                    <FileUpload
+                      onFileChange={(file) => {
+                        if (file) {
+                          form.setValue("image", file, { shouldValidate: true });
+                          setImagePreview(URL.createObjectURL(file));
+                        } else {
+                          // Reset image field when file removed
+                          form.resetField("image");
+                          setImagePreview(null);
+                        }
+                      }}
+                      preview={imagePreview}
+                    />
+                    {form.formState.errors.image && (
+                      <p className="text-sm text-destructive mt-2">
+                        {String(form.formState.errors.image.message)}
+                      </p>
+                    )}
 
                   {/* Form Fields */}
                   <CreateFormFields
-                    formData={formData}
+                    formData={watchAllFields}
                     collections={collections}
                     categories={categories}
-                    selectedCategory={formData.category || "Art"}
-                    onInputChange={handleInputChange}
-                    onCategorySelect={handleCategorySelect}
+                    selectedCategory={watchAllFields.category || "Art"}
+                    onInputChange={(field, value) => {
+                      // Type assertion needed because CreateFormFields uses NFTFormData keys
+                      form.setValue(field as keyof FormValues, value, {
+                        shouldValidate: true,
+                      });
+                    }}
+                    onCategorySelect={(cat) => form.setValue("category", cat)}
                   />
+                  </fieldset>
 
                   <div className="border-t border-border my-6" />
 
@@ -137,6 +309,32 @@ export default function CreateNFTPage() {
 
                   <div className="border-t border-border my-6" />
 
+                  {attributes.length > 0 && (
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-4">
+                      {attributes.map((attr, idx) => (
+                        <Card
+                          key={idx}
+                          className="p-3 bg-muted/30 border-primary/20 flex justify-between items-center"
+                        >
+                          <div className="overflow-hidden">
+                            <p className="text-xs font-semibold text-primary uppercase">
+                              {attr.trait_type}
+                            </p>
+                            <p className="text-sm truncate font-medium">
+                              {attr.value}
+                            </p>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => handleAttributeRemove(idx)}
+                            className="text-muted-foreground hover:text-destructive transition-colors"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </Card>
+                      ))}
+                    </div>
+                  )}
                   {/* Submit */}
                   <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4">
                     <div className="flex items-start gap-2 text-sm text-muted-foreground">
@@ -148,12 +346,36 @@ export default function CreateNFTPage() {
                     <Button
                       type="submit"
                       size="lg"
+                      disabled={isButtonDisabled}
                       className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8"
                     >
-                      Create
-                      <ArrowRight className="w-4 h-4 ml-2" />
+                      {isButtonDisabled && (
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      )}
+                      {getButtonText()}
+                      {!isButtonDisabled && (
+                        <ArrowRight className="w-4 h-4 ml-2" />
+                      )}
                     </Button>
                   </div>
+                  {hash && (
+                    <div className="text-center text-sm space-y-2">
+                      {isConfirming && (
+                        <p className="text-blue-500 animate-pulse">
+                          ⏳ Transaction pending...
+                        </p>
+                      )}
+                      <a 
+                        href={`https://etherscan.io/tx/${hash}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary hover:underline inline-flex items-center gap-1"
+                      >
+                        View on Explorer: {hash.slice(0, 10)}...{hash.slice(-8)}
+                        <ArrowRight className="w-3 h-3" />
+                      </a>
+                    </div>
+                  )}
                 </form>
               </div>
             </div>
@@ -161,9 +383,16 @@ export default function CreateNFTPage() {
             {/* Right Column: Preview */}
             <div className="lg:col-span-5 xl:col-span-4 hidden lg:block">
               <NFTPreview
-                name={formData.name || ""}
+                name={watchAllFields.name || "Unnamed NFT"}
                 imagePreview={imagePreview}
-                collection={formData.collection || "Untitled Collection"}
+                price={watchAllFields.price}
+                collection={
+                  watchAllFields.collection
+                    ? collections.find(
+                        (c) => c.id === watchAllFields.collection
+                      )?.name
+                    : "Genesis Collection"
+                }
               />
             </div>
           </div>

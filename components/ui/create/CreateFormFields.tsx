@@ -48,6 +48,24 @@ export function CreateFormFields({
         />
       </div>
 
+      {/* Price */}
+      <div className="space-y-2">
+        <Label htmlFor="price" className="text-base font-semibold">
+          Price (ETH) <span className="text-destructive">*</span>
+        </Label>
+        <p className="text-sm text-muted-foreground">
+          Set the initial listing price for your NFT
+        </p>
+        <Input
+          id="price"
+          type="text"
+          placeholder="0.01"
+          value={formData.price || ""}
+          onChange={(e) => onInputChange("price", e.target.value)}
+          className="bg-card border-border"
+        />
+      </div>
+
       {/* External Link */}
       <div className="space-y-2">
         <Label htmlFor="external-link" className="text-base font-semibold">

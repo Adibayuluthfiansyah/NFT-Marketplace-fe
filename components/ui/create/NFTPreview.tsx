@@ -8,12 +8,14 @@ interface NFTPreviewProps {
   name: string;
   imagePreview: string | null;
   collection?: string;
+  price?: string;
 }
 
 export function NFTPreview({
   name,
   imagePreview,
   collection = "Untitled Collection",
+  price,
 }: NFTPreviewProps) {
   return (
     <div className="sticky top-28 space-y-4">
@@ -35,7 +37,9 @@ export function NFTPreview({
           ) : (
             <div className="text-center p-8">
               <ImageIcon className="w-16 h-16 text-muted-foreground/30 mb-2 mx-auto" />
-              <p className="text-sm text-muted-foreground">Upload file to preview your item</p>
+              <p className="text-sm text-muted-foreground">
+                Upload file to preview your item
+              </p>
             </div>
           )}
         </div>
@@ -62,13 +66,16 @@ export function NFTPreview({
           <div className="flex items-center gap-2">
             <div className="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-secondary" />
             <p className="text-sm text-muted-foreground">
-              Created by <span className="text-foreground font-medium">you</span>
+              Created by{" "}
+              <span className="text-foreground font-medium">you</span>
             </p>
           </div>
 
           <div className="pt-4 border-t border-border">
             <p className="text-xs text-muted-foreground mb-1">Price</p>
-            <p className="text-2xl font-bold text-foreground">--</p>
+            <p className="text-2xl font-bold text-foreground">
+              {price ? `${price} ETH` : "--"}
+            </p>
           </div>
         </div>
       </Card>
@@ -76,7 +83,8 @@ export function NFTPreview({
       {/* Info Box */}
       <Card className="p-4 bg-primary/5 border-primary/20">
         <p className="text-sm text-foreground">
-          <span className="font-semibold">Note:</span> Once minted, some properties like name and supply cannot be changed.
+          <span className="font-semibold">Note:</span> Once minted, some
+          properties like name and supply cannot be changed.
         </p>
       </Card>
     </div>

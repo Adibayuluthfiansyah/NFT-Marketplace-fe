@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { CloudUpload, X } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { toast } from "sonner";
 
 interface FileUploadProps {
   onFileChange: (file: File | null) => void;
@@ -13,9 +14,19 @@ interface FileUploadProps {
 export function FileUpload({ onFileChange, preview }: FileUploadProps) {
   const [dragActive, setDragActive] = useState(false);
 
+  const validateFile = (file: File): boolean => {
+    // Validate file size (100MB = 100 * 1024 * 1024 bytes)
+    const maxSize = 100 * 1024 * 1024;
+    if (file.size > maxSize) {
+      toast.error("File size exceeds 100MB limit");
+      return false;
+    }
+    return true;
+  };
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
+    if (file && validateFile(file)) {
       onFileChange(file);
     }
   };
@@ -35,8 +46,9 @@ export function FileUpload({ onFileChange, preview }: FileUploadProps) {
     e.stopPropagation();
     setDragActive(false);
 
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      onFileChange(e.dataTransfer.files[0]);
+    const file = e.dataTransfer.files?.[0];
+    if (file && validateFile(file)) {
+      onFileChange(file);
     }
   };
 

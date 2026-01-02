@@ -1,5 +1,6 @@
 export interface NFTFormData {
   name: string;
+  price?: string;
   externalLink?: string;
   description?: string;
   collection: string;
