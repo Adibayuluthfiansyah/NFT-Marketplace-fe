@@ -28,12 +28,12 @@ import { NFT_COLLECTION_ABI, NFT_ADDRESS } from "../constant";
 import { NFTAttribute, NFTMetadata } from "../types/wallet";
 import { uploadNFTToIPFS } from "@/lib/nftStorage";
 
-// Helper function to detect media type from file
+//helper  detect media type from file
 const getMediaType = (file: File): string => {
-  if (file.type.startsWith('image/')) return 'image';
-  if (file.type.startsWith('video/')) return 'video';
-  if (file.type.startsWith('audio/')) return 'audio';
-  return 'image'; // default fallback
+  if (file.type.startsWith("image/")) return "image";
+  if (file.type.startsWith("video/")) return "video";
+  if (file.type.startsWith("audio/")) return "audio";
+  return "image";
 };
 
 //validation use zod
@@ -60,7 +60,6 @@ export default function CreateNFTPage() {
   const [attributes, setAttributes] = useState<NFTAttribute[]>([]);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-  // Cleanup blob URL on unmount or when preview changes
   useEffect(() => {
     return () => {
       if (imagePreview) {
@@ -168,35 +167,18 @@ export default function CreateNFTPage() {
       toast.success("NFT uploaded to IPFS successfully!");
       toast.loading("Waiting Wallet Confirmation...");
 
-      // Detect media type from file
-      const mediaType = getMediaType(data.image);
-
       // minting NFT
       writeContract({
         address: NFT_ADDRESS,
         abi: NFT_COLLECTION_ABI,
         functionName: "createToken",
-        args: [ipfsResult.url, mediaType],
+        args: [ipfsResult.url],
       });
-    } catch (error: unknown) {
+    } catch (error) {
       setIsUploading(false);
       console.error("Error creating NFT:", error);
       toast.dismiss();
-
-      // Better error handling with specific messages
-      const errorMessage = error instanceof Error ? error.message : '';
-      
-      if (errorMessage.includes('NFT Storage') || errorMessage.includes('ipfs')) {
-        toast.error("Failed to upload to IPFS. Check your API key.");
-      } else if (errorMessage.includes('User rejected') || errorMessage.includes('user rejected')) {
-        toast.error("Transaction cancelled by user.");
-      } else if (errorMessage.includes('insufficient funds')) {
-        toast.error("Insufficient ETH for gas fees.");
-      } else if (errorMessage.includes('Ownable') || errorMessage.includes('caller is not the owner')) {
-        toast.error("Only authorized users can mint NFTs.");
-      } else {
-        toast.error(`Failed to create NFT: ${errorMessage.slice(0, 100)}`);
-      }
+      toast.error("Failed to create NFT. Please try again.");
     }
   };
   // success minting
@@ -247,52 +229,38 @@ export default function CreateNFTPage() {
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="space-y-8"
                 >
-                  {/* Wallet Connection Warning */}
-                  {!isConnected && (
-                    <Card className="p-4 bg-yellow-500/10 border-yellow-500/20">
-                      <p className="text-sm text-yellow-600 dark:text-yellow-400 flex items-center gap-2">
-                        <Info className="w-4 h-4" />
-                        Please connect your wallet to create NFTs
-                      </p>
-                    </Card>
-                  )}
-
                   {/* File Upload */}
-                  <fieldset disabled={isButtonDisabled}>
-                    <FileUpload
-                      onFileChange={(file) => {
-                        if (file) {
-                          form.setValue("image", file, { shouldValidate: true });
-                          setImagePreview(URL.createObjectURL(file));
-                        } else {
-                          // Reset image field when file removed
-                          form.resetField("image");
-                          setImagePreview(null);
-                        }
-                      }}
-                      preview={imagePreview}
-                    />
-                    {form.formState.errors.image && (
-                      <p className="text-sm text-destructive mt-2">
-                        {String(form.formState.errors.image.message)}
-                      </p>
-                    )}
+                  <FileUpload
+                    onFileChange={(file) => {
+                      if (file) {
+                        form.setValue("image", file, { shouldValidate: true });
+                        setImagePreview(URL.createObjectURL(file));
+                      } else {
+                        form.resetField("image");
+                        setImagePreview(null);
+                      }
+                    }}
+                    preview={imagePreview}
+                  />
+                  {form.formState.errors.image && (
+                    <p className="text-sm text-destructive mt-2">
+                      {String(form.formState.errors.image.message)}
+                    </p>
+                  )}
 
                   {/* Form Fields */}
                   <CreateFormFields
-                    formData={watchAllFields}
+                    formData={watchAllFields as NFTFormData}
                     collections={collections}
                     categories={categories}
                     selectedCategory={watchAllFields.category || "Art"}
                     onInputChange={(field, value) => {
-                      // Type assertion needed because CreateFormFields uses NFTFormData keys
-                      form.setValue(field as keyof FormValues, value, {
+                      form.setValue(field as any, value, {
                         shouldValidate: true,
                       });
                     }}
                     onCategorySelect={(cat) => form.setValue("category", cat)}
                   />
-                  </fieldset>
 
                   <div className="border-t border-border my-6" />
 
@@ -358,22 +326,10 @@ export default function CreateNFTPage() {
                       )}
                     </Button>
                   </div>
-                  {hash && (
-                    <div className="text-center text-sm space-y-2">
-                      {isConfirming && (
-                        <p className="text-blue-500 animate-pulse">
-                          ⏳ Transaction pending...
-                        </p>
-                      )}
-                      <a 
-                        href={`https://etherscan.io/tx/${hash}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-primary hover:underline inline-flex items-center gap-1"
-                      >
-                        View on Explorer: {hash.slice(0, 10)}...{hash.slice(-8)}
-                        <ArrowRight className="w-3 h-3" />
-                      </a>
+                  {hash && isConfirming && (
+                    <div className="text-center text-xs text-blue-500 animate-pulse">
+                      Transaction sent! Waiting for block confirmation... <br />
+                      Hash: {hash.slice(0, 10)}...{hash.slice(-8)}
                     </div>
                   )}
                 </form>
@@ -385,7 +341,6 @@ export default function CreateNFTPage() {
               <NFTPreview
                 name={watchAllFields.name || "Unnamed NFT"}
                 imagePreview={imagePreview}
-                price={watchAllFields.price}
                 collection={
                   watchAllFields.collection
                     ? collections.find(
