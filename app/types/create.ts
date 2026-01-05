@@ -1,16 +1,16 @@
 export interface NFTFormData {
   name: string;
-  price?: string;
+  description: string;
+  price: string;
+  image: File;
   externalLink?: string;
-  description?: string;
-  collection: string;
-  category: string;
-  supply: number;
-  blockchain: string;
+  collection?: string;
+  category?: string;
+  supply?: number;
+  blockchain?: string;
   properties?: NFTProperty[];
   levels?: NFTLevel[];
   stats?: NFTStat[];
-  file?: File;
 }
 
 export interface NFTProperty {

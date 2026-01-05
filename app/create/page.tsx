@@ -36,7 +36,7 @@ const getMediaType = (file: File): string => {
   return "image";
 };
 
-//validation use zod
+//validation use zod - Schema matches NFTFormData interface
 const formSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters"),
   description: z.string().min(10, "Description must be at least 10 characters"),
@@ -49,9 +49,7 @@ const formSchema = z.object({
   category: z.string().optional(),
   supply: z.number().min(1).optional(),
   blockchain: z.string().optional(),
-});
-
-type FormValues = z.infer<typeof formSchema>;
+}) satisfies z.ZodType<NFTFormData>;
 
 export default function CreateNFTPage() {
   const router = useRouter();
@@ -81,13 +79,14 @@ export default function CreateNFTPage() {
     hash,
   });
 
-  // form hooks
-  const form = useForm<FormValues>({
+  // form hooks - Using NFTFormData directly for type safety
+  const form = useForm<NFTFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       description: "",
       price: "",
+      image: undefined,
       externalLink: "",
       collection: "",
       category: "Art",
@@ -145,7 +144,7 @@ export default function CreateNFTPage() {
   };
 
   // submit form
-  const onSubmit = async (data: FormValues) => {
+  const onSubmit = async (data: NFTFormData) => {
     if (!isConnected) {
       toast.error("Connect your wallet first");
       return;
@@ -250,12 +249,12 @@ export default function CreateNFTPage() {
 
                   {/* Form Fields */}
                   <CreateFormFields
-                    formData={watchAllFields as NFTFormData}
+                    formData={watchAllFields}
                     collections={collections}
                     categories={categories}
                     selectedCategory={watchAllFields.category || "Art"}
                     onInputChange={(field, value) => {
-                      form.setValue(field as any, value, {
+                      form.setValue(field, value, {
                         shouldValidate: true,
                       });
                     }}
