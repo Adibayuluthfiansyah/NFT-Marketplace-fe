@@ -3,7 +3,8 @@ import { Inter, DM_Sans } from "next/font/google";
 import { Footer } from "@/components/ui/layout/Footer";
 import { Toaster } from "@/components/ui/sonner";
 import { defaultMetadata } from "@/lib/metadata";
-import { Providers } from "./provider";
+import { ClientProviders } from "./ClientProviders";
+import "@rainbow-me/rainbowkit/styles.css";
 import "./globals.css";
 
 const inter = Inter({
@@ -31,11 +32,11 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${dmSans.variable} font-sans antialiased`}
       >
-        <Providers>
+        <ClientProviders>
           {children}
           <Footer />
           <Toaster position="top-right" theme="dark" richColors />
-        </Providers>
+        </ClientProviders>
       </body>
     </html>
   );

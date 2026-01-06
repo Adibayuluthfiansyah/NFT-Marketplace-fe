@@ -1,4 +1,4 @@
-import { Wallet, Copy, ChevronDown } from "lucide-react";
+import { Wallet, Copy } from "lucide-react";
 
 interface WalletBalanceCardProps {
   balance: string;

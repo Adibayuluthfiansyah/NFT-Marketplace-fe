@@ -32,7 +32,7 @@ export const showWarning = (message: string, description?: string) => {
   });
 };
 
-// Loading toast (returns id for dismissal)
+// Loading toast 
 export const showLoading = (message: string) => {
   return toast.loading(message);
 };
@@ -42,7 +42,7 @@ export const dismissToast = (toastId: string | number) => {
   toast.dismiss(toastId);
 };
 
-// Promise toast (for async operations)
+// Promise toast 
 export const showPromise = <T,>(
   promise: Promise<T>,
   messages: {
@@ -54,7 +54,7 @@ export const showPromise = <T,>(
   return toast.promise(promise, messages);
 };
 
-// Transaction toast (specific for blockchain)
+// Transaction toast
 export const showTransaction = {
   pending: (txHash: string) => {
     return toast.loading("Transaction Pending", {
@@ -67,7 +67,11 @@ export const showTransaction = {
       description: `View on explorer: ${txHash.slice(0, 10)}...`,
       action: {
         label: "View",
-        onClick: () => window.open(`https://etherscan.io/tx/${txHash}`, "_blank"),
+        onClick: () => {
+          if (typeof window !== 'undefined') {
+            window.open(`https://etherscan.io/tx/${txHash}`, "_blank");
+          }
+        },
       },
     });
   },

@@ -145,6 +145,7 @@ export default function LandingPage() {
               exclusive digital items.
             </motion.p>
 
+            
             {/* Buttons */}
             <motion.div
               variants={itemVar}

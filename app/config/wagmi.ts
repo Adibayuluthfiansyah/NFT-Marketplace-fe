@@ -1,4 +1,4 @@
-import { http, createConfig } from 'wagmi'
+import { http, cookieStorage, createStorage } from 'wagmi'
 import { mainnet, sepolia, hardhat } from 'wagmi/chains'
 import { getDefaultConfig } from '@rainbow-me/rainbowkit'
 
@@ -15,4 +15,7 @@ export const config = getDefaultConfig({
     [mainnet.id]: http(),
   },
   ssr: true,
+  storage: createStorage({
+    storage: cookieStorage,
+  }),
 })

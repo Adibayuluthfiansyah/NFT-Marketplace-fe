@@ -1,7 +1,6 @@
 "use client";
 
 import { use, useState } from "react";
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/ui/layout/Navbar";
 import { FileText, TrendingUp, Tag } from "lucide-react";

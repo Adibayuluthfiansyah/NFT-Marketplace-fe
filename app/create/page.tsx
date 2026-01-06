@@ -28,7 +28,7 @@ import { NFT_COLLECTION_ABI, NFT_ADDRESS } from "../constant";
 import { NFTAttribute, NFTMetadata } from "../types/wallet";
 import { uploadNFTToIPFS } from "@/lib/nftStorage";
 
-//helper  detect media type from file
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getMediaType = (file: File): string => {
   if (file.type.startsWith("image/")) return "image";
   if (file.type.startsWith("video/")) return "video";
@@ -36,7 +36,7 @@ const getMediaType = (file: File): string => {
   return "image";
 };
 
-//validation use zod - Schema matches NFTFormData interface
+//validation use zod
 const formSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters"),
   description: z.string().min(10, "Description must be at least 10 characters"),
@@ -53,7 +53,7 @@ const formSchema = z.object({
 
 export default function CreateNFTPage() {
   const router = useRouter();
-  const { address, isConnected } = useAccount();
+  const { isConnected } = useAccount();
   const [isUploading, setIsUploading] = useState(false);
   const [attributes, setAttributes] = useState<NFTAttribute[]>([]);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -94,9 +94,10 @@ export default function CreateNFTPage() {
       blockchain: "ethereum",
     },
   });
+  // eslint-disable-next-line react-hooks/incompatible-library
   const watchAllFields = form.watch();
 
-  //  (Attributes & Collections)
+  //  Attributes & Collections
   const attributeSections: AttributeSection[] = [
     {
       id: "1",

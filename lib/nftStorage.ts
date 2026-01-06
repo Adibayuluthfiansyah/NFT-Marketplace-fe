@@ -1,4 +1,4 @@
-import {NFTStorage, File} from 'nft.storage';
+import {NFTStorage} from 'nft.storage';
 import { NFTMetadata } from '../app/types/wallet';
 
 

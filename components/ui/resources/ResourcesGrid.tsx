@@ -3,7 +3,6 @@
 import { Card } from "@/components/ui/card";
 import { ArrowRight } from "lucide-react";
 import { ResourceSection } from "@/app/types/resources";
-import { cn } from "@/lib/utils";
 
 interface ResourcesGridProps {
   sections: ResourceSection[];

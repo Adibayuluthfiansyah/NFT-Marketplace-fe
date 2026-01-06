@@ -1,13 +1,13 @@
 "use client";
 
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { Environment, Float } from "@react-three/drei";
 import { useRef, useEffect, useMemo } from "react";
 import * as THREE from "three";
 import { easing } from "maath";
 import { generateLogoParticles } from "@/app/utils/generator";
 
-// Responsive particle count: mobile = 1500, desktop = 2500
+// Responsive particle 
 const getParticleCount = () => {
   if (typeof window === "undefined") return 2000;
   return window.innerWidth < 768 ? 1500 : 2500;
@@ -18,7 +18,7 @@ const PARTICLE_COUNT = getParticleCount();
 function Particles() {
   const meshRef = useRef<THREE.InstancedMesh>(null);
   const progress = useRef(0);
-  const dummy = useMemo(() => new THREE.Object3D(), []); // Reuse dummy object
+  const dummy = useMemo(() => new THREE.Object3D(), []); 
 
   const particleData = useMemo(() => generateLogoParticles(PARTICLE_COUNT), []);
   const { chaosPositions, targetPositions, colors } = particleData;
@@ -39,11 +39,8 @@ function Particles() {
     const p = progress.current;
     const time = state.clock.elapsedTime;
 
-    // Continuous smooth rotation (inspired by Uphold)
     meshRef.current.rotation.y = time * 0.08;
     meshRef.current.rotation.x = Math.sin(time * 0.05) * 0.05;
-
-    // Breathing/wave effect for the whole mesh
     const breathingScale = 1 + Math.sin(time * 0.6) * 0.03;
 
     for (let i = 0; i < PARTICLE_COUNT; i++) {
@@ -67,7 +64,6 @@ function Particles() {
       let finalY = currentX * sinSwirl + currentY * cosSwirl;
       let finalZ = currentZ;
 
-      // Wave motion - different particles move at different phases (Decentraland style)
       if (p > 0.95) {
         const waveOffset = i * 0.01;
         finalX += Math.sin(time * 0.8 + waveOffset) * 0.08;
@@ -77,7 +73,6 @@ function Particles() {
 
       dummy.position.set(finalX, finalY, finalZ);
 
-      // Individual particle rotation for depth effect
       const rotationSpeed = 0.5 + (i % 100) * 0.01;
       dummy.rotation.set(
         time * rotationSpeed * 0.2,
@@ -85,7 +80,7 @@ function Particles() {
         time * rotationSpeed * 0.1
       );
 
-      // Breathing scale with slight variation per particle
+
       const particleScale = 0.12 * breathingScale * (1 + Math.sin(time + i * 0.1) * 0.05);
       dummy.scale.set(particleScale, particleScale, particleScale);
 
@@ -120,12 +115,13 @@ function Particles() {
   );
 }
 
-// Ambient floating particles (Decentraland-style atmosphere)
+
 function AmbientParticles() {
   const meshRef = useRef<THREE.InstancedMesh>(null);
   const dummy = useMemo(() => new THREE.Object3D(), []);
   const count = 80;
 
+  /* eslint-disable react-hooks/purity */
   const positions = useMemo(() => {
     const pos = [];
     for (let i = 0; i < count; i++) {
@@ -138,7 +134,8 @@ function AmbientParticles() {
       });
     }
     return pos;
-  }, []);
+  }, [count]);
+  /* eslint-enable react-hooks/purity */
 
   useFrame((state) => {
     if (!meshRef.current) return;

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -34,11 +35,12 @@ export function GuidesSection({
           <a key={guide.id} href={guide.href} className="group">
             <Card className="overflow-hidden bg-card border-border hover:border-primary/50 transition-all duration-300 hover:shadow-lg">
               {guide.imageUrl && (
-                <div className="aspect-video w-full bg-muted overflow-hidden">
-                  <img
+                <div className="aspect-video w-full bg-muted overflow-hidden relative">
+                  <Image
                     src={guide.imageUrl}
                     alt={guide.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
               )}

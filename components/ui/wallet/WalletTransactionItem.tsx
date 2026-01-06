@@ -1,5 +1,4 @@
 import { ExternalLink, LucideIcon } from "lucide-react";
-import Image from "next/image";
 
 export interface Transaction {
   id: number;
