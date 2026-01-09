@@ -6,8 +6,8 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://70ng-market.com";
 export const defaultMetadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "70NG Market - Platform NFT Terpercaya Indonesia",
-    template: "%s | 70NG Market",
+    default: "70NG NFTMarket - Platform NFT Terpercaya Indonesia",
+    template: "%s | 70NG NFT's",
   },
   description:
     "Marketplace NFT dengan visual 3D yang imersif. Jual beli NFT dengan mudah, transaksi cepat, dan komunitas aktif. Platform NFT terpercaya di Indonesia.",
@@ -21,11 +21,11 @@ export const defaultMetadata: Metadata = {
     "blockchain",
     "ethereum",
     "NFT marketplace",
-    "70NG Market",
+    "70NG NFTMarket",
   ],
-  authors: [{ name: "70NG Market Team" }],
-  creator: "70NG Market",
-  publisher: "70NG Market",
+  authors: [{ name: "70NG NFTMarket Team" }],
+  creator: "70NG NFTMarket",
+  publisher: "70NG NFTMarket",
   formatDetection: {
     email: false,
     address: false,
@@ -35,10 +35,10 @@ export const defaultMetadata: Metadata = {
     type: "website",
     locale: "id_ID",
     url: baseUrl,
-    title: "70NG Market - Platform NFT Terpercaya Indonesia",
+    title: "70NG NFTMarket - Platform NFT Terpercaya Indonesia",
     description:
       "Marketplace NFT dengan visual 3D yang imersif. Jual beli NFT dengan mudah, transaksi cepat, dan komunitas aktif.",
-    siteName: "70NG Market",
+    siteName: "70NG NFTMarket",
     images: [
       {
         url: `${baseUrl}/og-image.jpg`,
@@ -50,11 +50,11 @@ export const defaultMetadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "70NG Market - Platform NFT Terpercaya Indonesia",
+    title: "70NG NFTMarket - Platform NFT Terpercaya Indonesia",
     description:
       "Marketplace NFT dengan visual 3D yang imersif. Jual beli NFT dengan mudah, transaksi cepat, dan komunitas aktif.",
     images: [`${baseUrl}/og-image.jpg`],
-    creator: "@70NGMarket",
+    creator: "@70NGNFTMarket",
   },
   robots: {
     index: true,
@@ -81,7 +81,7 @@ export const exploreMetadata: Metadata = {
   description:
     "Jelajahi ribuan koleksi NFT unik dari kreator di seluruh dunia. Temukan, beli, dan koleksi NFT favorit Anda.",
   openGraph: {
-    title: "Jelajahi NFT | 70NG Market",
+    title: "Jelajahi NFT | 70NG NFTMarket",
     description:
       "Jelajahi ribuan koleksi NFT unik dari kreator di seluruh dunia. Temukan, beli, dan koleksi NFT favorit Anda.",
   },
@@ -92,7 +92,7 @@ export const createMetadata: Metadata = {
   description:
     "Mint dan jual NFT Anda sendiri dengan mudah. Upload karya, set harga, dan mulai hasilkan income dari seni digital Anda.",
   openGraph: {
-    title: "Buat NFT | 70NG Market",
+    title: "Buat NFT | 70NG NFTMarket",
     description:
       "Mint dan jual NFT Anda sendiri dengan mudah. Upload karya, set harga, dan mulai hasilkan income dari seni digital Anda.",
   },
@@ -102,7 +102,7 @@ export const profileMetadata: Metadata = {
   title: "Profil",
   description: "Kelola koleksi NFT Anda, lihat statistik, dan atur profil kreator Anda.",
   openGraph: {
-    title: "Profil | 70NG Market",
+    title: "Profil | 70NG NFTMarket",
     description: "Kelola koleksi NFT Anda, lihat statistik, dan atur profil kreator Anda.",
   },
 };
@@ -123,7 +123,7 @@ export const statsMetadata: Metadata = {
   description:
     "Lihat data dan tren pasar NFT terkini. Analisis volume perdagangan, harga, dan popularitas koleksi.",
   openGraph: {
-    title: "Statistik | 70NG Market",
+    title: "Statistik | 70NG NFTMarket",
     description:
       "Lihat data dan tren pasar NFT terkini. Analisis volume perdagangan, harga, dan popularitas koleksi.",
   },
@@ -132,15 +132,15 @@ export const statsMetadata: Metadata = {
 export const resourcesMetadata: Metadata = {
   title: "Sumber Daya",
   description:
-    "Pelajari tentang NFT, blockchain, dan cara menggunakan platform 70NG Market. Panduan lengkap untuk pemula.",
+    "Pelajari tentang NFT, blockchain, dan cara menggunakan platform 70NG NFTMarket. Panduan lengkap untuk pemula.",
   openGraph: {
-    title: "Sumber Daya | 70NG Market",
+    title: "Sumber Daya | 70NG NFTMarket",
     description:
-      "Pelajari tentang NFT, blockchain, dan cara menggunakan platform 70NG Market. Panduan lengkap untuk pemula.",
+      "Pelajari tentang NFT, blockchain, dan cara menggunakan platform 70NG NFTMarket. Panduan lengkap untuk pemula.",
   },
 };
 
-// NFT Detail metadata generator (dynamic)
+// NFT Detail metadata generator
 export function generateNFTMetadata(nft: {
   name: string;
   description: string;
@@ -152,7 +152,7 @@ export function generateNFTMetadata(nft: {
     title: nft.name,
     description: nft.description,
     openGraph: {
-      title: `${nft.name} | 70NG Market`,
+      title: `${nft.name} | 70NG NFTMarket`,
       description: nft.description,
       images: [
         {

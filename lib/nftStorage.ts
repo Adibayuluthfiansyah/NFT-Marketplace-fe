@@ -1,33 +1,81 @@
-import {NFTStorage} from 'nft.storage';
 import { NFTMetadata } from '../app/types/wallet';
 
+const PINATA_JWT = process.env.NEXT_PUBLIC_PINATA_JWT;
+const PINATA_GATEWAY = process.env.NEXT_PUBLIC_PINATA_GATEWAY || "gateway.pinata.cloud";
 
-const NFT_STORAGE_TOKEN = process.env.NEXT_PUBLIC_NFT_STORAGE_API_KEY || '';
-
-export async function uploadNFTToIPFS (data: NFTMetadata) {
-    if (!NFT_STORAGE_TOKEN) {
-        throw new Error('NFT Storage API key is not defined');
+export async function uploadNFTToIPFS(data: NFTMetadata) {
+    if (!PINATA_JWT) {
+        throw new Error('Pinata JWT is not defined in .env');
     }
-    const client = new NFTStorage({ token: NFT_STORAGE_TOKEN });
+
     try {
-        const metadata = await client.store({
+        // upload image to pinata
+        let imageCid = "";
+        if (data.image) {
+            const formData = new FormData();
+            formData.append("file", data.image);
+
+            const metadata = JSON.stringify({
+                name: `Image - ${data.name}`,
+            });
+            formData.append('pinataMetadata', metadata);
+            formData.append('pinataOptions', JSON.stringify({ cidVersion: 1 }));
+
+            const imageRes = await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${PINATA_JWT}`,
+                },
+                body: formData,
+            });
+
+            if (!imageRes.ok) throw new Error("Failed to upload image to Pinata");
+            const imageJson = await imageRes.json();
+            imageCid = imageJson.IpfsHash;
+        }
+
+        // make metadata object
+        const nftMetadata = {
             name: data.name,
             description: data.description,
-            // image: new File([data.image], data.image.name, { type: data.image.type }),
-            image: data.image,
+            image: `ipfs://${imageCid}`, 
             attributes: data.attributes,
+        };
+
+        // upload json metadata to pinata
+        const jsonRes = await fetch("https://api.pinata.cloud/pinning/pinJSONToIPFS", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${PINATA_JWT}`,
+            },
+            body: JSON.stringify({
+                pinataContent: nftMetadata,
+                pinataMetadata: { name: `Metadata - ${data.name}` }
+            }),
         });
-        console.log('NFT uploaded to IPFS with URL:', metadata.url);
-        return metadata;
+
+        if (!jsonRes.ok) throw new Error("Failed to upload metadata to Pinata");
+        const jsonResult = await jsonRes.json();
+        
+        // return metadata url for minting
+        const metadataUrl = `ipfs://${jsonResult.IpfsHash}`;
+        console.log('NFT Metadata uploaded to IPFS:', metadataUrl);
+        
+        return { url: metadataUrl };
+
     } catch (error) {
-        console.error('Error uploading NFT to IPFS:', error);
+        console.error('Error uploading to Pinata:', error);
         throw error;
     }
 }
 
-// helper function to change URL ips to https
+// helper format ipfs url to gateway url
 export function formatIPFSUrl(ipfsUrl: string) {
-    if(!ipfsUrl) return "";
-    if(ipfsUrl.startsWith("http")) return ipfsUrl;
-    return ipfsUrl.replace("ipfs://", "https://nftstorage.link/ipfs/");
+    if (!ipfsUrl) return "";
+    if (ipfsUrl.startsWith("http")) return ipfsUrl;
+    
+    // Convert ipfs to gateway url
+    const cid = ipfsUrl.replace("ipfs://", "");
+    return `https://${PINATA_GATEWAY}/ipfs/${cid}`;
 }
