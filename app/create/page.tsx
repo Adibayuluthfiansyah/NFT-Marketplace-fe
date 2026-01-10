@@ -28,7 +28,6 @@ import { NFT_COLLECTION_ABI, NFT_ADDRESS } from "../constant";
 import { NFTAttribute, NFTMetadata } from "../types/wallet";
 import { uploadNFTToIPFS } from "@/lib/nftStorage";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getMediaType = (file: File): string => {
   if (file.type.startsWith("image/")) return "image";
   if (file.type.startsWith("video/")) return "video";
@@ -162,6 +161,10 @@ export default function CreateNFTPage() {
       };
       const ipfsResult = await uploadNFTToIPFS(metadata);
       console.log("IPFS URL:", ipfsResult.url);
+      const mediaType = getMediaType(data.image);
+      console.log("Media Type:", mediaType);
+
+      // proceed to minting
       setIsUploading(false);
       toast.dismiss();
       toast.success("NFT uploaded to IPFS successfully!");
@@ -172,7 +175,7 @@ export default function CreateNFTPage() {
         address: NFT_ADDRESS,
         abi: NFT_COLLECTION_ABI,
         functionName: "createToken",
-        args: [ipfsResult.url],
+        args: [ipfsResult.url, mediaType],
       });
     } catch (error) {
       setIsUploading(false);
